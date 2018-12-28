@@ -1,0 +1,55 @@
+Google Docs but its written by 3 high school seniors
+
+Matthew Kendall, Joshua Weiner, Hanna Yang
+
+A statement of the problem you are solving and/or a high level description of the project:
+	This project will be a text editor that can be run by multiple people at once so that each person can edit the same file together (think: a worse version of google docs).
+	The text files can be saved and accessed by multiple people not necessarily from the same computer.
+	This text editor will be able to handle making lists and have nice colors.
+
+Describe User Interface:
+  The user will run the server program, either with a argument (filename) or without. The user will be prompted to enter one if not. The server program will create one client upon run (this is the first user of the text editor). Then, they will be taken to a screen that contains the text is in the file (empty if the file doesn’t exist). The user will then select a line to edit and the place in the line to begin entering text (press i to insert), and enter/edit text. Pressing will insert a newline below a selected line. In general, there will be a help menu with a list of keybindings. Any other users to join will join by running the client program.
+
+
+A description of your technical design:
+	How you will be using the topics covered in class in the project.
+    Opening, reading, closing files + handling → used to edit and save the file
+    Server-client communication → allows for multiple people to edit a file at once, without messing with things.
+      Includes pipes
+    Signal Handling - nice exits, etc
+  How you are breaking down the project and who is responsible for which parts
+    Any unassigned parts will be worked on by all three people
+    Make something that allows the displaying of text, moving the cursor around (deal with basic keyboard input) - Matthew
+    Make something that allows for a single line to be displayed/changed - Hanna + Josh
+    Make the text editor work for one person. (Idea for design is that there is a server file that controls the way that editing is handled)
+      Text editor displays all previously written text
+      Write code that allows you to pick which line to edit, then implement step 2 for each line
+      First, restrict it so that people cannot add lines to the file (so the file starts as just a bunch of new lines)
+      Then, allow people to enter new lines, and keep everything intact
+      Whenever user presses enter it saves (maybe in a buffer file).
+    Make it work for multiple people
+      We restrict it (for now) such that each person is working on a seperate line
+    Add aesthetics -- allow for color changes, font size?
+      Ordered and unordered lists
+      Display line numbers next to the lines
+      Smooth exiting with signal handling
+    HOPEFULS:
+      Add vim bindings
+
+What data structures you will be using and how.
+  Linked List - The contents of the file are represented as a linked list, where each node is a line of text. When a line is edited, the user sends their input to the server which puts the data into the cargo of the appropriate node.  When the user wants to save the file, each line in the linked list is written to the file.
+  Nodes (struct)
+  	Fields: cargo (void * - can either point to a string or another linked list, in the case where we have a list), type (can either be a line or the start of a list), pointer to the next node in the linked list
+  Adding ordered and unordered lists - for each ordered/unordered list we will have a node that is the head of a linked list.  Line numbers will be assigned by traversing through the nodes starting from the head.
+
+What algorithms you will be using, and how
+  Linked List: Adding nodes in the beginning, middle and at the end of a linked list; traversing through the linked list for saving & displaying the text to the user, and calculating what line is what number node → eventually, when we implement the typing of lists, this will become a directed tree
+  Server client handshake & establishment of a persistent server: server will store data written by users
+  (We also need a forking process here so that we can handle multiple users)
+  File read/writes: allowing clients to read and write files.
+
+A timeline with expected completion dates of parts of the project
+  Jan 3: Finish steps 1 and 2
+  Jan 7: Finish steps 3 and 4
+  Jan 15: Finish step 5
+  Jan 25: Remove restriction 4a, try for HOPEFULS
