@@ -19,22 +19,22 @@ A description of your technical design:
     Signal Handling - nice exits, etc
   How you are breaking down the project and who is responsible for which parts
     Any unassigned parts will be worked on by all three people
-    Make something that allows the displaying of text, moving the cursor around (deal with basic keyboard input) - Matthew
-    Make something that allows for a single line to be displayed/changed - Hanna + Josh
-    Make the text editor work for one person. (Idea for design is that there is a server file that controls the way that editing is handled)
-      Text editor displays all previously written text
-      Write code that allows you to pick which line to edit, then implement step 2 for each line
-      First, restrict it so that people cannot add lines to the file (so the file starts as just a bunch of new lines)
-      Then, allow people to enter new lines, and keep everything intact
-      Whenever user presses enter it saves (maybe in a buffer file).
-    Make it work for multiple people
-      We restrict it (for now) such that each person is working on a seperate line
-    Add aesthetics -- allow for color changes, font size?
-      Ordered and unordered lists
-      Display line numbers next to the lines
-      Smooth exiting with signal handling
-    HOPEFULS:
-      Add vim bindings
+    1. Make something that allows the displaying of text, moving the cursor around (deal with basic keyboard input) - Matthew
+    2. Make something that allows for a single line to be displayed/changed - Hanna + Josh
+    3. Make the text editor work for one person. (Idea for design is that there is a server file that controls the way that editing is handled)
+      a. Text editor displays all previously written text
+      b. Write code that allows you to pick which line to edit, then implement step 2 for each line
+      	i.  First, restrict it so that people cannot add lines to the file (so the file starts as just a bunch of new lines)
+      	ii. Then, allow people to enter new lines, and keep everything intact
+      c. Whenever user presses enter it saves (maybe in a buffer file).
+    4. Make it work for multiple people
+      a. We restrict it (for now) such that each person is working on a seperate line
+    5. Add aesthetics -- allow for color changes, font size?
+      a. Ordered and unordered lists
+      b. Display line numbers next to the lines
+      c. Smooth exiting with signal handling
+    6. HOPEFULS:
+      a. Add vim bindings
 
 What data structures you will be using and how.
   Linked List - The contents of the file are represented as a linked list, where each node is a line of text. When a line is edited, the user sends their input to the server which puts the data into the cargo of the appropriate node.  When the user wants to save the file, each line in the linked list is written to the file.
