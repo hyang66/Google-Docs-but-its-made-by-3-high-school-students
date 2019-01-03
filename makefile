@@ -11,7 +11,10 @@ hanna: hannasthingyignore.o
 	gcc -o hanna hannasthingyignore.o
 	./hanna
 
-<<<<<<< HEAD
+curses:
+	gcc -o curses curses.c -lncurses
+
+#<<<<<<< HEAD
 linked_list.o: linked_list.c linked_list.h
 	gcc -c -g linked_list.c
 
@@ -23,14 +26,14 @@ test: linked_list.o test.o
 
 run: 
 	./NAMEHERE
-=======
+#=======
 
 kiloexample: kiloexample.c
 	$(CC) -o kiloexample kiloexample.c -Wall -W -pedantic -std=c99
 
-run:
+run2:
 	./go
->>>>>>> 5da8c2f117a74127eb0f136cb463aae4bb20f78e
+#>>>>>>> 5da8c2f117a74127eb0f136cb463aae4bb20f78e
 
 clean:
 	rm *.o
