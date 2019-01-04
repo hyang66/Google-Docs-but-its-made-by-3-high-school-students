@@ -87,7 +87,7 @@ int main(void) {
 
     WINDOW * mainwin;
     int ch;
-    char str[10];
+    char str[20];
 
     
     /*  Initialize ncurses  */
@@ -128,11 +128,16 @@ int main(void) {
         while (str[i]) {
             i ++;
         }
-        if (i < 9) {
-            str[i] = newc;
-            str[i + 1] = 0;
+        if (newc == '<') {
+            str[i-1] = 0;
+
+        } else {
+            if (i < 19) {
+                str[i] = newc;
+                str[i + 1] = 0;
+            }
         }
-        mvprintw(6, 10, "Your text is: %s", str);
+        mvprintw(6, 10, "Your text is: [%s]                         ", str);
         mvprintw(7, 10, "You pressed: 0x%x (%s)", ch, intprtkey(ch));
         refresh();
     }
