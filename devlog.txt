@@ -15,6 +15,6 @@ Google Docs but it's made by three high school students
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 12/30/18 6pm (Hanna and Matthew): Stuctured the linked_list.c and client.c files
-
+01/02/19 5pm (Hanna and Matthew): Adapted linked list to display text files
 01/03/19 3pm (Hanna): messed around with ncurses, now we can deal w basic keyboard input...
 01/03/19 6pm (Hanna): more mssing arounf with ncurses, now theres a pseudo text editor that doesn't allow backspacing...
