@@ -5,6 +5,7 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include "linked_list.h"
+#include "pipe_networking.h"
 
 static void sighandler(int signo) {
   if (signo == SIGINT) {
@@ -34,7 +35,11 @@ int main() {
         {
           while ((dir = readdir(d)) != NULL)
           {
-            
+            if (strcmp(msg, dir->d_name) == 0) {
+              write(to_client, "What line number do you want to edit?", BUFFER_SIZE);
+              //TO DO:
+              //Execvp file writing
+            }
             printf("%s\n", dir->d_name);
           }
           closedir(d);
@@ -43,6 +48,7 @@ int main() {
         strcat(msg, " -- changes read into file");
         write(to_client, msg, BUFFER_SIZE);
       }
+      return 0;
     }
 
     // get filename thru aguments
@@ -59,5 +65,3 @@ int main() {
     // send new linked list to all clients
     //
     //
-
-}
