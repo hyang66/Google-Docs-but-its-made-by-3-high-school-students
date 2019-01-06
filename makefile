@@ -11,8 +11,8 @@ hanna: hannasthingyignore.o
 	gcc -o hanna hannasthingyignore.o
 	./hanna
 
-curses:
-	gcc -o curses curses.c -lncurses
+curses: linked_list.o
+	gcc -o curses curses.c -lncurses linked_list.o
 
 #<<<<<<< HEAD
 linked_list.o: linked_list.c linked_list.h
