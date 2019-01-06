@@ -1,11 +1,7 @@
 /*
 
-  CURHELLO.C
-  ==========
-  (c) Copyright Paul Griffiths 1999
+  some struct code was borrowed from Paul Griffiths 1999
   Email: mail@paulgriffiths.net
-
-  "Hello, world!", ncurses style.
 
 */
 
@@ -115,8 +111,8 @@ int main() {
     /*  Initialize ncurses  */
 
     if ( (mainwin = initscr()) == NULL ) {
-	fprintf(stderr, "Error initialising ncurses.\n");
-	exit(EXIT_FAILURE);
+        fprintf(stderr, "Error initialising ncurses.\n");
+        exit(EXIT_FAILURE);
     }
 
     noecho();                  /*  Turn off key echoing                 */
@@ -133,9 +129,9 @@ int main() {
 
     /*  Print a prompt and refresh() the screen  */
 
-    mvaddstr(5, 10, "Press a key ('q' to quit)...");
-    mvprintw(6, 10, "Your text is: %s", str);
-    mvprintw(7, 10, "You pressed: ");
+    mvaddstr(1, 10, "Press a key ('q' to quit and save this line)...");
+    mvprintw(2, 10, "The file contains: %s", input);
+    mvprintw(10, 10, "Your text is: %s", str);
     refresh();
 
         /*  Loop until user presses 'q'  */
@@ -159,10 +155,11 @@ int main() {
                 str[i + 1] = 0;
             }
         }
-        mvprintw(6, 10, "Your text is: [%s]                         ", str);
-        mvprintw(7, 10, "You pressed: 0x%x (%s)", ch, intprtkey(ch));
+        mvprintw(10, 10, "Your text is: %s", str);
         refresh();
     }
+
+    // save this file...
 
     /*  Clean up after ourselves  */
 
