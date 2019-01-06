@@ -35,6 +35,19 @@ struct node * insert_front(struct node* p, void * i) {
     return head;
 }
 
+struct node * get_node(int line_no, struct node* head) {
+  struct node* current = head;
+  int count = 0;
+  while (current != NULL)
+  {
+      if (count == index)
+          return(current->cargo);
+      count++;
+      current = current->next;
+  }
+  return(0);
+}
+
 struct node * free_list(struct node* p) {
     if (p) {
         free_list(p->next);
@@ -68,10 +81,10 @@ struct node * read_file(char* input) {
 
 
     // while we arent at the end of the input string
-    //      strsep, take until the newline 
+    //      strsep, take until the newline
     //      put this in cargo
     //      set poitner of node to next node
     //      malloc next node
-    
+
     return head;
 }
