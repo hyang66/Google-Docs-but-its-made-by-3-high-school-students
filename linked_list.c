@@ -40,8 +40,8 @@ struct node * get_node(int line_no, struct node* head) {
   int count = 0;
   while (current != NULL)
   {
-      if (count == index)
-          return(current->cargo);
+      if (count == line_no)
+          return(current);
       count++;
       current = current->next;
   }

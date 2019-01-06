@@ -4,15 +4,18 @@ all: main.o
 main.o: main.c
 	gcc -c -g main.c
 
-hannasthingyignore.o: hannasthingyignore.c
-	gcc -c -g hannasthingyignore.c
+#hannasthingyignore.o: hannasthingyignore.c
+	#gcc -c -g hannasthingyignore.c
 
-hanna: hannasthingyignore.o
-	gcc -o hanna hannasthingyignore.o
-	./hanna
+#hanna: hannasthingyignore.o
+	#gcc -o hanna hannasthingyignore.o
+	#./hanna
 
-curses: linked_list.o
-	gcc -o curses curses.c -lncurses linked_list.o
+curses: linked_list.o curses.o
+	gcc -o curses curses.o -lncurses linked_list.o
+
+curses.o: curses.c linked_list.h
+	gcc -c curses.c
 
 #<<<<<<< HEAD
 linked_list.o: linked_list.c linked_list.h

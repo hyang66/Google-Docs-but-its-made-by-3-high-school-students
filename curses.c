@@ -88,7 +88,7 @@ char * intprtkey(int ch) {
     return NULL;        /*  We shouldn't get here  */
 }
 
-int main() {
+int main( int argc, char** argv ) {
 
     printf("testing turning a file into a linked list\n");
 
@@ -131,17 +131,43 @@ int main() {
 
     mvaddstr(1, 10, "Press a key ('q' to quit and save this line)...");
 
+    /*int l = argv[1]; // this will be the line number*/
+    int l = 2;
+
     // print tne entire file until the line that is currently being edited...
     
 
     mvprintw(2, 10, "The file contains:\n          %s", input);
 
+    printf("some seetupt\n");
     // print the rest of the file ( and save a space for the line we are editng to be printed )
-    mvprintw(5, 10, "%s", head->next->next->cargo);
-    mvprintw(6, 10, "%s", head->next->next->next->cargo);
+    int i = l;
+    struct node * currnode = head;
+    // while you have trversed less than l-1 args
+    while (i) {
+    //      mvprintw the cargo
+    
+        mvprintw(l - i + 3, 10, "%s", currnode->cargo);    
+        currnode = currnode->next;
+        i--;
+
+    }
+    // 
+    printf("printed the first half...\n");
+    /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
+    // go to the l+1st arg
+    currnode = get_node(l+1,head);
+    // mvprintw the cargo
+    while (currnode) {
+        mvprintw(l+3 + i, 10, "%s", currnode->cargo);
+        currnode = currnode->next;
+        i++;
+
+    }
+    /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
     //print out the line we are currently editing.
-    mvprintw(4, 10, "%s", str);
+    mvprintw(l + 2, 10, "%s", str);
     refresh();
 
         /*  Loop until user presses 'q'  */

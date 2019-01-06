@@ -9,6 +9,7 @@ struct node {
 
 void print_list(struct node* p);
 void print_node(struct node* p);
+struct node * get_node(int line_no, struct node* head);
 struct node * insert_front(struct node* p, void* i);
 struct node * free_list(struct node* p);
 
