@@ -1,6 +1,6 @@
 /*
 
-  some struct code was borrowed from Paul Griffiths 1999
+  struct keydesc and intprtkey code was borrowed from Paul Griffiths 1999
   Email: mail@paulgriffiths.net
 
 */
@@ -130,8 +130,18 @@ int main() {
     /*  Print a prompt and refresh() the screen  */
 
     mvaddstr(1, 10, "Press a key ('q' to quit and save this line)...");
-    mvprintw(2, 10, "The file contains: %s", input);
-    mvprintw(10, 10, "Your text is: %s", str);
+
+    // print tne entire file until the line that is currently being edited...
+    
+
+    mvprintw(2, 10, "The file contains:\n          %s", input);
+
+    // print the rest of the file ( and save a space for the line we are editng to be printed )
+    mvprintw(5, 10, "%s", head->next->next->cargo);
+    mvprintw(6, 10, "%s", head->next->next->next->cargo);
+
+    //print out the line we are currently editing.
+    mvprintw(4, 10, "%s", str);
     refresh();
 
         /*  Loop until user presses 'q'  */
@@ -155,7 +165,18 @@ int main() {
                 str[i + 1] = 0;
             }
         }
-        mvprintw(10, 10, "Your text is: %s", str);
+        // print tne entire file until the line that is currently being edited...
+        
+
+        mvprintw(2, 10, "The file contains:\n          %s", input);
+
+        // print the rest of the file ( and save a space for the line we are editng to be printed )
+        mvprintw(5, 10, "%s", head->next->next->cargo);
+        mvprintw(6, 10, "%s", head->next->next->next->cargo);
+
+        //print out the line we are currently editing.
+        mvprintw(4, 10, "%s", str);
+        /*mvprintw(5, 10, "%s", input);*/
         refresh();
     }
 
