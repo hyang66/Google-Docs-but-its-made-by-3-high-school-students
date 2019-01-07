@@ -241,7 +241,15 @@ int main( int argc, char** argv ) {
 
 
     // save this file...
+    // print_list(head);
+    // printf("test\n");
+    
+    int stdoutfd = dup(1);
+    dup2(fd, 1);
+    print_list(head);
+    dup2(stdoutfd, 1);
 
+    
     /*  Clean up after ourselves  */
 
     delwin(mainwin);
