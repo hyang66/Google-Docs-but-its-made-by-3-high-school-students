@@ -40,11 +40,10 @@ int main() {
     // print tne entire file until the line that is currently being edited...
     
 
-    printf("The file contains:\n%s\n", input);
 
     printf("some seetupt\n");
     // print the rest of the file ( and save a space for the line we are editng to be printed )
-    int i = l;
+    int i = l - 1;
     struct node * currnode = head;
     // while you have trversed less than l-1 args
     while (i) {

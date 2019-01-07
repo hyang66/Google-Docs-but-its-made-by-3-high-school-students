@@ -88,44 +88,12 @@ char * intprtkey(int ch) {
     return NULL;        /*  We shouldn't get here  */
 }
 
-int main( int argc, char** argv ) {
-
-    /*printf("testing turning a file into a linked list\n");*/
-
-    int fd = open("haha.txt", O_RDONLY);
-    /*printf("opened file\n");*/
-
-    char input[500];
-    read(fd, input, 500);
-    /*printf("read file\n");*/
-
-    struct node * head = read_file(input);
-    /*printf("read file into linked list\n");*/
-
-
-    WINDOW * mainwin;
-    int ch;
-    char* str = get_node(2, head)->cargo;
-
-    
-    /*  Initialize ncurses  */
-
-    if ( (mainwin = initscr()) == NULL ) {
-        fprintf(stderr, "Error initialising ncurses.\n");
-        exit(EXIT_FAILURE);
-    }
-
-    noecho();                  /*  Turn off key echoing                 */
-    keypad(mainwin, TRUE);     /*  Enable the keypad for non-char keys  */
-
-
-
+void draw_text( struct node * head, int l, char* str) {
     /*  Print a prompt and refresh() the screen  */
 
     mvaddstr(1, 10, "Press a key ('q' to quit and save this line)...");
 
     /*int l = argv[1]; // this will be the line number*/
-    int l = 2;
 
     // print tne entire file until the line that is currently being edited...
     
@@ -145,6 +113,7 @@ int main( int argc, char** argv ) {
         i--;
 
     }
+    
     // 
     /*printf("printed the first half...\n");*/
     /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
@@ -152,7 +121,7 @@ int main( int argc, char** argv ) {
     currnode = get_node(l+1,head);
     // mvprintw the cargo
     while (currnode->next) {
-        mvprintw(l+4 + i, 10, "%s**", currnode->cargo);
+        mvprintw(l+3 + i, 10, "%s**", currnode->cargo);
         currnode = currnode->next;
         i++;
 
@@ -161,8 +130,42 @@ int main( int argc, char** argv ) {
     /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
     //print out the line we are currently editing.
-    mvprintw(l + 3, 10, "%s***", str);
+    mvprintw(l + 2, 10, "%s***", str);
     refresh();
+
+}
+
+int main( int argc, char** argv ) {
+
+    /*printf("testing turning a file into a linked list\n");*/
+
+    int fd = open("haha.txt", O_RDONLY);
+    /*printf("opened file\n");*/
+
+    char input[500];
+    read(fd, input, 500);
+    /*printf("read file\n");*/
+
+    struct node * head = read_file(input);
+    /*printf("read file into linked list\n");*/
+
+
+    WINDOW * mainwin;
+    int ch;
+
+    
+    /*  Initialize ncurses  */
+
+    if ( (mainwin = initscr()) == NULL ) {
+        fprintf(stderr, "Error initialising ncurses.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    noecho();                  /*  Turn off key echoing                 */
+    keypad(mainwin, TRUE);     /*  Enable the keypad for non-char keys  */
+
+    char * str = get_node(2-1, head)->cargo;
+    draw_text(head, 2, str);
 
         /*  Loop until user presses 'q'  */
 
@@ -198,7 +201,7 @@ int main( int argc, char** argv ) {
         mvprintw(2, 10, "The file contains:\n", input);
 
         // print the rest of the file ( and save a space for the line we are editng to be printed )
-        i = l;
+        i = l-1;
         struct node * currnode = head;
         // while you have trversed less than l-1 args
         while (i) {
@@ -209,10 +212,11 @@ int main( int argc, char** argv ) {
             i--;
 
         }
+
         // 
         /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
         // go to the l+1st arg
-        currnode = get_node(l,head);
+        currnode = get_node(l+1,head);
         // mvprintw the cargo
         while (currnode->next) {
             mvprintw(l+3 + i, 10, "%s", currnode->cargo);
@@ -227,6 +231,7 @@ int main( int argc, char** argv ) {
         refresh();
 
     }
+
 
     // save this file...
 
