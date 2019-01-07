@@ -108,7 +108,7 @@ void draw_text( struct node * head, int l, char* str) {
     while (i) {
     //      mvprintw the cargo
     
-        mvprintw(l - i + 2, 10, "%s*", currnode->cargo);    
+        mvprintw(l - i + 2, 10, "%s", currnode->cargo);    
         currnode = currnode->next;
         i--;
 
@@ -121,7 +121,7 @@ void draw_text( struct node * head, int l, char* str) {
     currnode = get_node(l+1,head);
     // mvprintw the cargo
     while (currnode->next) {
-        mvprintw(l+3 + i, 10, "%s**", currnode->cargo);
+        mvprintw(l+3 + i, 10, "%s", currnode->cargo);
         currnode = currnode->next;
         i++;
 
@@ -130,7 +130,7 @@ void draw_text( struct node * head, int l, char* str) {
     /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
     //print out the line we are currently editing.
-    mvprintw(l + 2, 10, "%s***", str);
+    mvprintw(l + 2, 10, "%s", str);
     refresh();
 
 }
@@ -164,7 +164,14 @@ int main( int argc, char** argv ) {
     noecho();                  /*  Turn off key echoing                 */
     keypad(mainwin, TRUE);     /*  Enable the keypad for non-char keys  */
 
-    char * str = get_node(2-1, head)->cargo;
+    char str[50];
+    char * s = get_node(2-1, head)->cargo;
+    int i = 0;
+    while (s&& i < 50) {
+        str[i] = *s;
+        s++;
+        i ++;
+    } 
     draw_text(head, 2, str);
 
         /*  Loop until user presses 'q'  */
