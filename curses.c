@@ -130,7 +130,7 @@ int main( int argc, char** argv ) {
     // print tne entire file until the line that is currently being edited...
     
 
-    mvprintw(2, 10, "The file contains:\n          %s", input);
+    mvprintw(2, 10, "The file contains:");
 
     /*printf("some seetupt\n");*/
     // print the rest of the file ( and save a space for the line we are editng to be printed )
@@ -149,7 +149,7 @@ int main( int argc, char** argv ) {
     /*printf("printed the first half...\n");*/
     /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
     // go to the l+1st arg
-    currnode = get_node(l+1,head);
+    currnode = get_node(l,head);
     // mvprintw the cargo
     while (currnode->next) {
         mvprintw(l+3 + i, 10, "%s", currnode->cargo);
@@ -194,7 +194,7 @@ int main( int argc, char** argv ) {
         // print tne entire file until the line that is currently being edited...
         
 
-        mvprintw(2, 10, "The file contains:\n          %s", input);
+        mvprintw(2, 10, "The file contains:\n", input);
 
         // print the rest of the file ( and save a space for the line we are editng to be printed )
         i = l;
@@ -211,7 +211,7 @@ int main( int argc, char** argv ) {
         // 
         /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
         // go to the l+1st arg
-        currnode = get_node(l+1,head);
+        currnode = get_node(l,head);
         // mvprintw the cargo
         while (currnode->next) {
             mvprintw(l+3 + i, 10, "%s", currnode->cargo);
