@@ -70,5 +70,5 @@ int main() {
     /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
     //print out the line we are currently editing.
-    printf( "%s\n", str);
+    printf( "%s\n***", str);
 }

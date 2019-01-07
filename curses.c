@@ -105,7 +105,7 @@ int main( int argc, char** argv ) {
 
     WINDOW * mainwin;
     int ch;
-    char* str = head->next->cargo;
+    char* str = get_node(2, head)->cargo;
 
     
     /*  Initialize ncurses  */
@@ -134,13 +134,13 @@ int main( int argc, char** argv ) {
 
     /*printf("some seetupt\n");*/
     // print the rest of the file ( and save a space for the line we are editng to be printed )
-    int i = l;
+    int i = l - 1;
     struct node * currnode = head;
     // while you have trversed less than l-1 args
     while (i) {
     //      mvprintw the cargo
     
-        mvprintw(l - i + 3, 10, "%s", currnode->cargo);    
+        mvprintw(l - i + 2, 10, "%s*", currnode->cargo);    
         currnode = currnode->next;
         i--;
 
@@ -149,18 +149,19 @@ int main( int argc, char** argv ) {
     /*printf("printed the first half...\n");*/
     /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
     // go to the l+1st arg
-    currnode = get_node(l,head);
+    currnode = get_node(l+1,head);
     // mvprintw the cargo
     while (currnode->next) {
-        mvprintw(l+3 + i, 10, "%s", currnode->cargo);
+        mvprintw(l+4 + i, 10, "%s**", currnode->cargo);
         currnode = currnode->next;
         i++;
 
     }
+
     /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
     //print out the line we are currently editing.
-    mvprintw(l + 2, 10, "%s", str);
+    mvprintw(l + 3, 10, "%s***", str);
     refresh();
 
         /*  Loop until user presses 'q'  */
