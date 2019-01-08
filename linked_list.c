@@ -63,7 +63,10 @@ struct node * read_file(char* input) {
 
 	char *s = strsep(&input, "\n");
     struct node * currnode = head;
-	while (strcmp(s,"")) {
+	while (s) {
+        if (!currnode) {
+            break;
+        }
 		/*ans[i] = s;	*/
         char* str = calloc(sizeof(char), CARGO_MAX);
         strncpy(str, s, CARGO_MAX);
@@ -75,6 +78,7 @@ struct node * read_file(char* input) {
         /*printf("made another node\n");*/
 		/*printf("%d : %s", i, ans[i]);*/
 		s = strsep(&input, "\n");
+        printf("81\n");
         /*if (s) {*/
             /*printf("s: [%s]\n", s);*/
         /*}*/
