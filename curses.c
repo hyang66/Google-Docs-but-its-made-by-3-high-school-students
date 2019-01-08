@@ -20,6 +20,9 @@
 #include <unistd.h>                  /*  for sleep()  */
 #include <curses.h>
 #include <ctype.h>
+#define KCYN  "\x1B[36m"
+#define KMAG  "\x1B[35m"
+#define KNRM  "\x1B[0m"
 
 
 /*  Struct to hold keycode/keyname information  */
@@ -89,8 +92,8 @@ char * intprtkey(int ch) {
 }
 
 void draw_text( struct node * head, int l, char* str) {
-    deleteln();
 
+    deleteln();
     /*  Print a prompt and refresh() the screen  */
 
     mvaddstr(1, 10, "Press a key ('q' to quit and save this line)...");
@@ -110,7 +113,7 @@ void draw_text( struct node * head, int l, char* str) {
     while (i) {
     //      mvprintw the cargo
     
-        mvprintw(l - i + 2, 10, "%s", currnode->cargo);    
+        mvprintw(l - i + 2, 2, "%d %s*", l-i, currnode->cargo);    
         currnode = currnode->next;
         i--;
 
@@ -123,7 +126,7 @@ void draw_text( struct node * head, int l, char* str) {
     currnode = get_node(l+1,head);
     // mvprintw the cargo
     while (currnode->next) {
-        mvprintw(l+3 + i, 10, "%s", currnode->cargo);
+        mvprintw(l+3 + i, 2, "%d %s**", l+i+1, currnode->cargo);
         currnode = currnode->next;
         i++;
 
@@ -132,7 +135,7 @@ void draw_text( struct node * head, int l, char* str) {
     /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
     //print out the line we are currently editing.
-    mvprintw(l + 2, 10, "%s", str);
+    mvprintw(l + 2, 2, "%d %s", l, str);
     refresh();
 
 }
