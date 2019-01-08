@@ -145,6 +145,11 @@ int main( int argc, char** argv ) {
     /*printf("opened file\n");*/
 
     char input[500];
+    int n = 499;
+    while (n + 1) {
+        input[n] = 0;
+        n --;
+    }
     read(fd, input, 500);
     /*printf("read file\n");*/
 

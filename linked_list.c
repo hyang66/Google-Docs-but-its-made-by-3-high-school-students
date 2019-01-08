@@ -70,6 +70,7 @@ struct node * read_file(char* input) {
 		/*ans[i] = s;	*/
         char* str = calloc(sizeof(char), CARGO_MAX);
         strncpy(str, s, CARGO_MAX);
+        printf("[%s]\n", s);
         currnode->cargo = str;
         printf("expect to see the line: []%s[]\n", currnode->cargo);
         printf("expect to see nothing: %c\n", str[75]);
