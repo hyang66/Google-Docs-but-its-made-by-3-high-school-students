@@ -113,6 +113,7 @@ void draw_text( struct node * head, int l, char* str) {
         i--;
 
     }
+    refresh();
     
     // 
     /*printf("printed the first half...\n");*/
@@ -126,6 +127,7 @@ void draw_text( struct node * head, int l, char* str) {
         i++;
 
     }
+    refresh();
 
     /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
@@ -164,14 +166,16 @@ int main( int argc, char** argv ) {
     noecho();                  /*  Turn off key echoing                 */
     keypad(mainwin, TRUE);     /*  Enable the keypad for non-char keys  */
 
-    char str[50];
+    char str[CARGO_MAX];
     char * s = get_node(2-1, head)->cargo;
     int i = 0;
-    while (s&& i < 50) {
+    while (s&& i < CARGO_MAX) {
         str[i] = *s;
         s++;
         i ++;
     } 
+
+
     draw_text(head, 2, str);
 
         /*  Loop until user presses 'q'  */
@@ -239,15 +243,8 @@ int main( int argc, char** argv ) {
 
     }
 
-
-    // save this file...
-    // print_list(head);
-    // printf("test\n");
     
-    int stdoutfd = dup(1);
-    dup2(fd, 1);
-    print_list(head);
-    dup2(stdoutfd, 1);
+
 
     
     /*  Clean up after ourselves  */
@@ -256,7 +253,24 @@ int main( int argc, char** argv ) {
     endwin();
     refresh();
 
+    // save this file...
+    struct node * edited_line = get_node(2-1, head);
+    edited_line->cargo = str;
+    // print_list(head);
+    // printf("test\n");
+    
+    close(fd);
+    fd = open("haha.txt", O_WRONLY);
+    
+    printf("duping begins now\n");
+    int stdoutfd = dup(STDOUT_FILENO);
+    dup2(fd, STDOUT_FILENO);
+    print_list(head);
+    printf("hmm\n");
+    dup2(stdoutfd, STDOUT_FILENO);
 
+    /*print_list(head);*/
+    close(fd);
 
     return EXIT_SUCCESS;
 }

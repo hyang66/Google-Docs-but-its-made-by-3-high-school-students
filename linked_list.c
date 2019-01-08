@@ -65,15 +65,19 @@ struct node * read_file(char* input) {
     struct node * currnode = head;
 	while (strcmp(s,"")) {
 		/*ans[i] = s;	*/
-        currnode->cargo = s;
+        char* str = calloc(sizeof(char), CARGO_MAX);
+        strncpy(str, s, CARGO_MAX);
+        currnode->cargo = str;
+        printf("expect to see the line: []%s[]\n", currnode->cargo);
+        printf("expect to see nothing: %c\n", str[75]);
         currnode->next = malloc(sizeof(struct node));
         currnode->type = IS_LINE;
         /*printf("made another node\n");*/
 		/*printf("%d : %s", i, ans[i]);*/
 		s = strsep(&input, "\n");
-        if (s) {
-            printf("s: [%s]\n", s);
-        }
+        /*if (s) {*/
+            /*printf("s: [%s]\n", s);*/
+        /*}*/
         currnode = currnode->next;
 	}
 
