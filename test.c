@@ -69,5 +69,15 @@ int main() {
     /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
     //print out the line we are currently editing.
-    printf( "%s\n***", str);
+    printf( "%s\n***\n", str);
+
+
+    printf("duping begins now\n");
+    int stdoutfd = dup(STDOUT_FILENO);
+    dup2(fd, STDOUT_FILENO);
+    print_list(head);
+    printf("hmm\n");
+    dup2(stdoutfd, STDOUT_FILENO);
+
+
 }
