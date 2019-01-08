@@ -89,6 +89,8 @@ char * intprtkey(int ch) {
 }
 
 void draw_text( struct node * head, int l, char* str) {
+    deleteln();
+
     /*  Print a prompt and refresh() the screen  */
 
     mvaddstr(1, 10, "Press a key ('q' to quit and save this line)...");
@@ -113,7 +115,6 @@ void draw_text( struct node * head, int l, char* str) {
         i--;
 
     }
-    refresh();
     
     // 
     /*printf("printed the first half...\n");*/
@@ -127,7 +128,6 @@ void draw_text( struct node * head, int l, char* str) {
         i++;
 
     }
-    refresh();
 
     /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
@@ -205,46 +205,7 @@ int main( int argc, char** argv ) {
             }
         }
         /*  Print a prompt and refresh() the screen  */
-
-        mvaddstr(1, 10, "Press a key ('q' to quit and save this line)...");
-
-        /*int l = argv[1]; // this will be the line number*/
-        int l = 2;
-
-        // print tne entire file until the line that is currently being edited...
-        
-
-        mvprintw(2, 10, "The file contains:\n", input);
-
-        // print the rest of the file ( and save a space for the line we are editng to be printed )
-        i = l-1;
-        struct node * currnode = head;
-        // while you have trversed less than l-1 args
-        while (i) {
-        //      mvprintw the cargo
-        
-            mvprintw(l - i + 3, 10, "%s", currnode->cargo);    
-            currnode = currnode->next;
-            i--;
-
-        }
-
-        // 
-        /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
-        // go to the l+1st arg
-        currnode = get_node(l+1,head);
-        // mvprintw the cargo
-        while (currnode->next) {
-            mvprintw(l+3 + i, 10, "%s", currnode->cargo);
-            currnode = currnode->next;
-            i++;
-
-        }
-        /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
-
-        //print out the line we are currently editing.
-        mvprintw(l + 2, 10, "%s", str);
-        refresh();
+        draw_text(head, 2, str);
 
     }
 
