@@ -93,7 +93,7 @@ char * intprtkey(int ch) {
 
 void draw_text( struct node * head, int l, char* str) {
 
-    deleteln();
+    clear();				/* clear the screen */
     /*  Print a prompt and refresh() the screen  */
 
     mvaddstr(1, 10, "Press a key ('q' to quit and save this line)...");
