@@ -1,7 +1,4 @@
-#define IS_LIST 0
-#define IS_LINE 1
-#define CARGO_MAX 100 
-
+#include "definitions.h"
 struct node { 
     void * cargo; 
     struct node *next; 

@@ -1,19 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <dirent.h>
-#include <sys/types.h>
 #include "pipe_networking.h"
-
-#define Q 0
-#define UP  1
-#define DOWN 2
+#include "definitions.h"
 
 int main() {
   int to_server, from_server;
 
-  char buff[BUFFER_SIZE];
+  /*char buff[BUFFER_SIZE];*/
 
   from_server = client_handshake( &to_server );
 
@@ -70,7 +61,21 @@ int main() {
            // linenum = 0
            // linenum > 0
         }
+
+        if (child_arg == ENTER) {
+            // tell the server to add new line at that index
+            // restart curses with that new line
+            //
+            // CURRENTLY can only enter at end of line
+            // everything else will be lost
+            
+        }
+    // write edited line with parent
+    // client writes line to server
+    // server makes the official edit
+        // versions don't get out of sync
     }
+    
   }
 
     // server client handshake

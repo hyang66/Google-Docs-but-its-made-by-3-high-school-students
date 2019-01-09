@@ -65,3 +65,9 @@ int main() {
     // send new linked list to all clients
     //
     //
+    //
+    // write edited line with parent
+    // client writes line to server
+    // server makes the official edit
+        // versions don't get out of sync
+    //

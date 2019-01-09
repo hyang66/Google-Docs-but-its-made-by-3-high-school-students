@@ -1,14 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <dirent.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <string.h>
-#include <errno.h>
-#include <signal.h>
 #include "linked_list.h"
+#include "definitions.h"
 
 void print_list(struct node* p){
     print_node(p);
@@ -70,16 +61,15 @@ struct node * read_file(char* input) {
 		/*ans[i] = s;	*/
         char* str = calloc(sizeof(char), CARGO_MAX);
         strncpy(str, s, CARGO_MAX);
-        printf("[%s]\n", s);
+        // printf("[%s]\n", s);
         currnode->cargo = str;
-        printf("expect to see the line: []%s[]\n", currnode->cargo);
-        printf("expect to see nothing: %c\n", str[75]);
+        // printf("expect to see the line: []%s[]\n", currnode->cargo);
+        // printf("expect to see nothing: %c\n", str[75]);
         currnode->next = malloc(sizeof(struct node));
         currnode->type = IS_LINE;
         /*printf("made another node\n");*/
 		/*printf("%d : %s", i, ans[i]);*/
 		s = strsep(&input, "\n");
-        printf("81\n");
         /*if (s) {*/
             /*printf("s: [%s]\n", s);*/
         /*}*/

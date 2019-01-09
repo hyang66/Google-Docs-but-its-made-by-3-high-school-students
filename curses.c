@@ -227,6 +227,11 @@ int main( int argc, char** argv ) {
     edited_line->cargo = str;
     // print_list(head);
     // printf("test\n");
+    // 
+    // write edited line with parent
+    // client writes line to server
+    // server makes the official edit
+        // versions don't get out of sync
     
     close(fd);
     fd = open("haha.txt", O_WRONLY);
@@ -241,5 +246,6 @@ int main( int argc, char** argv ) {
     /*print_list(head);*/
     close(fd);
 
+    // return Q, UP, DOWN
     return EXIT_SUCCESS;
 }
