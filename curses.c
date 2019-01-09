@@ -14,12 +14,14 @@
 #include <string.h>
 #include <errno.h>
 #include <signal.h>
-#include "linked_list.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>                  /*  for sleep()  */
 #include <curses.h>
 #include <ctype.h>
+
+#include "linked_list.h"
+#include "definitions.h"
 #define KCYN  "\x1B[36m"
 #define KMAG  "\x1B[35m"
 #define KNRM  "\x1B[0m"
@@ -143,6 +145,7 @@ void draw_text( struct node * head, int l, char* str) {
 int main( int argc, char** argv ) {
 
     /*printf("testing turning a file into a linked list\n");*/
+    int line_number = atoi(argv[1]);
 
     int fd = open("haha.txt", O_RDONLY);
     /*printf("opened file\n");*/
@@ -175,7 +178,7 @@ int main( int argc, char** argv ) {
     keypad(mainwin, TRUE);     /*  Enable the keypad for non-char keys  */
 
     char str[CARGO_MAX];
-    char * s = get_node(2-1, head)->cargo;
+    char * s = get_node(line_number-1, head)->cargo;
     int i = 0;
     while (s&& i < CARGO_MAX) {
         str[i] = *s;
@@ -184,7 +187,7 @@ int main( int argc, char** argv ) {
     } 
 
 
-    draw_text(head, 2, str);
+    draw_text(head, line_number, str);
 
         /*  Loop until user presses 'q'  */
 
@@ -208,7 +211,7 @@ int main( int argc, char** argv ) {
             }
         }
         /*  Print a prompt and refresh() the screen  */
-        draw_text(head, 2, str);
+        draw_text(head, line_number, str);
 
     }
 
@@ -223,7 +226,7 @@ int main( int argc, char** argv ) {
     refresh();
 
     // save this file...
-    struct node * edited_line = get_node(2-1, head);
+    struct node * edited_line = get_node(line_number-1, head);
     edited_line->cargo = str;
     // print_list(head);
     // printf("test\n");

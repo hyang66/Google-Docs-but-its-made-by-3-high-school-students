@@ -45,6 +45,8 @@ int main() {
         args[0] = "./curses";
         args[1] = linenum;
 
+        printf("[child of clinet: ready to execvp\n]");
+
         execvp("./curses", args);
     }
     else { // parent
