@@ -23,4 +23,7 @@ Google Docs but it's made by three high school students
 01/06/19 10am (Hanna and Josh and Matthew): fixed segfaults in curses.c
 01/08/19 5pm (Matthew): added structure to client.c
 01/08/19 9pm (Hanna): hanna finally finds out how to actually use ncurses properly; also she adds line numbers.
+01/10/19 10am (Hanna and Josh and Matthew): more structuring
+01/10/19 3pm (Hanna): client /server things work no w :) 
+
 
