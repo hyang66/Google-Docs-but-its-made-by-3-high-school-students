@@ -15,8 +15,20 @@ int main() {
   while(1){ // us sending requests to the server
       if (first_time) {
         first_time = 0;
+        DIR *d;
+        struct dirent *dir;
+        d = opendir(".");
+        if (d)
+        {
+          printf("Here are the directory contents: ");
+          while ((dir = readdir(d)) != NULL)
+          {
+            printf("%s\n", dir->d_name);
+          }
+          closedir(d);
+        }
 
-        printf("[client] enter line number to start editing:"); 
+        printf("[client] enter line number to start editing:");
         fgets(linenum, BUFFER_SIZE, stdin);
         linenum[strlen(linenum) - 1] = '\0';
       }
@@ -70,14 +82,14 @@ int main() {
             //
             // CURRENTLY can only enter at end of line
             // everything else will be lost
-            
+
         }
     // write edited line with parent
     // client writes line to server
     // server makes the official edit
         // versions don't get out of sync
     }
-    
+
   }
 
     // server client handshake

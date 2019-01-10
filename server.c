@@ -25,28 +25,16 @@ int main() {
       from_client = server_handshake( &to_client );
       char msg[BUFFER_SIZE];
 
-      while(read(from_client, msg, BUFFER_SIZE)) {
-        //get filename from client
-        printf("[client] %s\n", msg);
-        DIR *d;
-        struct dirent *dir;
-        d = opendir(".");
-        if (d)
-        {
-          while ((dir = readdir(d)) != NULL)
-          {
-            if (strcmp(msg, dir->d_name) == 0) {
-              write(to_client, "What line number do you want to edit?", BUFFER_SIZE);
-              //TO DO:
-              //Execvp file writing
-            }
-            printf("%s\n", dir->d_name);
-          }
-          closedir(d);
+      int f = fork();
+      if(!f) {
+        while(read(from_client, msg, BUFFER_SIZE)) {
+          //get filename from client
+          printf("[client] %s\n", msg);
+          strcat(msg, " -- changes read into file");
+          write(to_client, msg, BUFFER_SIZE);
         }
       }
-        strcat(msg, " -- changes read into file");
-        write(to_client, msg, BUFFER_SIZE);
+
       }
       return 0;
     }
