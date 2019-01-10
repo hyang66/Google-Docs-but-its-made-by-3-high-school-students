@@ -9,10 +9,11 @@ int main() {
   from_server = client_handshake( &to_server );
 
   char linenum[BUFFER_SIZE];
+  /*char filename[BUFFER_SIZE];*/
   char rd[BUFFER_SIZE];
   int first_time = 1;
 
-  while(1){ // us sending requests to the server
+  while(1) { // us sending requests to the server
       if (first_time) {
         first_time = 0;
         DIR *d;
@@ -20,7 +21,7 @@ int main() {
         d = opendir(".");
         if (d)
         {
-          printf("Here are the directory contents: ");
+          printf(CYAN "Here are the directory contents:\n");
           while ((dir = readdir(d)) != NULL)
           {
             printf("%s\n", dir->d_name);
@@ -28,10 +29,24 @@ int main() {
           closedir(d);
         }
 
-        printf("[client] enter line number to start editing:");
-        fgets(linenum, BUFFER_SIZE, stdin);
-        linenum[strlen(linenum) - 1] = '\0';
       }
+
+    /*char resp[4];*/
+    /*printf(RESET "[client] do you want to edit alongside someone who is already editng a file? (y/n)\n");*/
+    /*fgets(resp, 4, stdin);*/
+    /*resp[strlen(resp) - 1] = '\0';*/
+    
+    /*if (!strcmp(resp, "n")){*/
+
+        /*printf(RESET "[client] enter filename to start editing:\n");*/
+        /*fgets(filename, BUFFER_SIZE, stdin);*/
+        /*filename[strlen(filename) - 1] = '\0';*/
+    /*}*/
+
+
+    printf(RESET "[client] enter line number to start editing:\n");
+    fgets(linenum, BUFFER_SIZE, stdin);
+    linenum[strlen(linenum) - 1] = '\0';
 
 
     // send line numbers to server, telling which line we are currently editing
@@ -94,7 +109,7 @@ int main() {
         // versions don't get out of sync
     }
 
-  }
+  } // end while 1
 
     // server client handshake
     //

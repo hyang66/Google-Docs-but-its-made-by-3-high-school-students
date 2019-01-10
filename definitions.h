@@ -27,4 +27,9 @@
 #define WRITE 1
 #define READ 0
 
+// colors
+#define RESET "\x1b[0m"
+#define MAGENTA "\x1b[35m"
+#define CYAN "\x1b[36m"
+
 #endif

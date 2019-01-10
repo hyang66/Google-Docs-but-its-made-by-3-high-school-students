@@ -15,7 +15,16 @@ static void sighandler(int signo) {
 }
 
 int main() {
-  signal(SIGINT, sighandler);
+    /*int SOMEONE_EDITING = 0;*/
+    int lines_being_edited[20];
+    
+    int i = 20;
+    while (i) {
+        lines_being_edited[20 - i] = 0;
+        i --;
+    }
+
+    signal(SIGINT, sighandler);
 
     int to_client;
     int from_client;
@@ -25,13 +34,20 @@ int main() {
       from_client = server_handshake( &to_client );
       char msg[BUFFER_SIZE];
 
+      // find out if client is wants to start a new file or not:
+      
+      
+
       int f = fork();
       if(!f) {
         while(read(from_client, msg, BUFFER_SIZE)) {
           //get filename from client
           printf("[client] %s\n", msg);
-          strcat(msg, "ok");
-          write(to_client, msg, BUFFER_SIZE);
+          int line_number = atoi(msg);
+          if (!lines_being_edited[line_number]) {
+            strcat(msg, "ok");
+            write(to_client, msg, BUFFER_SIZE);
+          }
         }
       }
 

@@ -14,10 +14,10 @@ main.o: main.c
 curses: linked_list.o curses.o
 	gcc -o curses curses.o -lncurses linked_list.o
 
-curses.o: curses.c linked_list.h
+curses.o: curses.c linked_list.h definitions.h
 	gcc -c curses.c
 
-linked_list.o: linked_list.c linked_list.h
+linked_list.o: linked_list.c linked_list.h definitions.h
 	gcc -c -g linked_list.c
 
 test.o: test.c linked_list.h
@@ -41,10 +41,10 @@ client: client.o pipe_networking.o
 server: server.o pipe_networking.o
 	gcc -o server server.o pipe_networking.o
 
-client.o: client.c pipe_networking.h
+client.o: client.c pipe_networking.h definitions.h
 	gcc -c client.c
 
-server.o: server.c pipe_networking.h
+server.o: server.c pipe_networking.h definitions.h
 	gcc -c server.c
 
 pipe_networking.o: pipe_networking.c pipe_networking.h

@@ -115,7 +115,7 @@ void draw_text( struct node * head, int l, char* str) {
     while (i) {
     //      mvprintw the cargo
     
-        mvprintw(l - i + 2, 2, "%d %s*", l-i, currnode->cargo);    
+        mvprintw(l - i + 2, 2, "%d %s", l-i, currnode->cargo);    
         currnode = currnode->next;
         i--;
 
@@ -128,7 +128,7 @@ void draw_text( struct node * head, int l, char* str) {
     currnode = get_node(l+1,head);
     // mvprintw the cargo
     while (currnode->next) {
-        mvprintw(l+3 + i, 2, "%d %s**", l+i+1, currnode->cargo);
+        mvprintw(l+3 + i, 2, "%d %s", l+i+1, currnode->cargo);
         currnode = currnode->next;
         i++;
 
