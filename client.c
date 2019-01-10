@@ -51,8 +51,11 @@ int main() {
     //      CHILD:
     //          execvp curses and line number
     //
+    int fds[2];
+    pipe(fds);
     int f = fork();
     if (!f) { // child
+        close(fds[READ]);
         char *args[2];
         args[0] = "./curses";
         args[1] = linenum;
@@ -62,6 +65,7 @@ int main() {
         execvp("./curses", args);
     }
     else { // parent
+        close(fds[WRITE]);
         int status;
         wait(&status);
 

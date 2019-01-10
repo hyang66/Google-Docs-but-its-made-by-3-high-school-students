@@ -23,4 +23,8 @@
 #define IS_LINE 1
 #define CARGO_MAX 100 
 
+// file stuff
+#define WRITE 1
+#define READ 0
+
 #endif

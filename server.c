@@ -30,7 +30,7 @@ int main() {
         while(read(from_client, msg, BUFFER_SIZE)) {
           //get filename from client
           printf("[client] %s\n", msg);
-          strcat(msg, " -- changes read into file");
+          strcat(msg, "ok");
           write(to_client, msg, BUFFER_SIZE);
         }
       }
