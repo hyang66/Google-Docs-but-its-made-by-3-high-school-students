@@ -78,6 +78,9 @@ int main() {
         printf("[child of clinet: ready to execvp\n]");
 
         execvp("./curses", args);
+
+        // child sends line to server
+        // server makes edit
     }
     else { // parent
         close(fds[WRITE]);

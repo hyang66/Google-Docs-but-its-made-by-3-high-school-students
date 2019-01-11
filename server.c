@@ -7,6 +7,8 @@
 #include "linked_list.h"
 #include "pipe_networking.h"
 
+#define NUM_LINES 78
+
 static void sighandler(int signo) {
   if (signo == SIGINT) {
       remove("wkp");
@@ -16,11 +18,11 @@ static void sighandler(int signo) {
 
 int main() {
     /*int SOMEONE_EDITING = 0;*/
-    int lines_being_edited[20];
+    int lines_being_edited[NUM_LINES];
     
-    int i = 20;
+    int i = NUM_LINES;
     while (i) {
-        lines_being_edited[20 - i] = 0;
+        lines_being_edited[NUM_LINES - i] = 0;
         i --;
     }
 

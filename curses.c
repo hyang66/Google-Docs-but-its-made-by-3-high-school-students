@@ -31,7 +31,7 @@
 
 struct keydesc {
     int  code;
-    char name[20];
+    char name[30];
 };
 
 
