@@ -12,11 +12,11 @@
 int server_handshake(int *to_client) {
   int make = mkfifo("wkp", 0644);
 	if(make < 0){
-	  printf(MAGENTA "[server] Error opening Public Pipe: %s\n", strerror(errno));
+	  printf(MAGENTA "[server] Public pipe already made: %s\n", strerror(errno));
 	  exit(0);
 	}
   else {
-	  printf(MAGENTA "[server] wkp opened, recieving from client\n");
+	  printf(MAGENTA "[server] wkp, recieving from client\n");
 	}
   int wkpd = open("wkp", O_RDONLY);
   char pid[HANDSHAKE_BUFFER_SIZE];
