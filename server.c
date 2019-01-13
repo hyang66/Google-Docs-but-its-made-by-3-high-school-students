@@ -16,12 +16,6 @@ static void sighandler(int signo) {
   }
 }
 
-void save_file(int fd, char * new_line) {
-    // make linked list somewhere
-    
-    // get to correct node in linked list and edit its cargo
-    
-}
 
 int main() {
     // make linked list
@@ -77,6 +71,11 @@ int main() {
           }
           curnode->cargo = NEW_LINE;
         }
+        printf("duping begins now\n");
+        /*int stdoutfd = dup(STDOUT_FILENO);*/
+        /*dup2(fd, STDOUT_FILENO);*/
+        print_list(head);
+        /*dup2(stdoutfd, STDOUT_FILENO);*/
       }
 
       }

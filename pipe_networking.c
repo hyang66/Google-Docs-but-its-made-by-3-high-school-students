@@ -13,7 +13,7 @@ int server_handshake(int *to_client) {
   int make = mkfifo("wkp", 0644);
 	if(make < 0){
 	  printf(MAGENTA "[server] Public pipe already made: %s\n", strerror(errno));
-	  exit(0);
+	  /*exit(0);*/
 	}
   else {
 	  printf(MAGENTA "[server] wkp, recieving from client\n");

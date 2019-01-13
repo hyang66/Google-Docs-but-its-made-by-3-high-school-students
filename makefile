@@ -11,10 +11,10 @@ main.o: main.c
 	#gcc -o hanna hannasthingyignore.o
 	#./hanna
 
-curses: linked_list.o curses.o
-	gcc -o curses curses.o -lncurses linked_list.o
+curses: linked_list.o curses.o pipe_networking.o
+	gcc -o curses curses.o -lncurses linked_list.o pipe_networking.o
 
-curses.o: curses.c linked_list.h definitions.h
+curses.o: curses.c linked_list.h definitions.h pipe_networking.h
 	gcc -c curses.c
 
 linked_list.o: linked_list.c linked_list.h definitions.h
@@ -38,11 +38,11 @@ run2:
 client: client.o pipe_networking.o
 	gcc -o client client.o pipe_networking.o
 
-server: server.o pipe_networking.o
-	gcc -o server server.o pipe_networking.o
+server: server.o pipe_networking.o linked_list.o
+	gcc -o server server.o pipe_networking.o linked_list.o
 
-client.o: client.c pipe_networking.h definitions.h
-	gcc -c client.c
+client.o: client.c pipe_networking.h definitions.h linked_list.h
+	gcc -c client.c 
 
 server.o: server.c pipe_networking.h definitions.h
 	gcc -c server.c

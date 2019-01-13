@@ -22,6 +22,7 @@
 
 #include "linked_list.h"
 #include "definitions.h"
+#include "pipe_networking.h"
 #define KCYN  "\x1B[36m"
 #define KMAG  "\x1B[35m"
 #define KNRM  "\x1B[0m"
@@ -225,9 +226,15 @@ int main( int argc, char** argv ) {
     endwin();
     refresh();
 
-    // save this file...
+    // send this info to the client...
+    
+    int to_client, from_client;
+    from_client = client_handshake( &to_client );
+
     struct node * edited_line = get_node(line_number-1, head);
     edited_line->cargo = str;
+
+    write(to_client, str, BUFFER_SIZE);
     // print_list(head);
     // printf("test\n");
     // 

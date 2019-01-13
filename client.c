@@ -68,11 +68,11 @@ int main() {
     //          execvp curses and line number
     //
     
-    int fds[2];
-    pipe(fds);
+    /*int fds[2];*/
+    /*pipe(fds);*/
     int f = fork();
     if (!f) { // child
-        close(fds[READ]);
+        /*close(fds[READ]);*/
         char * cmd = "./curses";
         char *args[3];
         args[0] = "./curses";
@@ -89,7 +89,17 @@ int main() {
     else { // parent
         printf("[client]: in parent\n");
 
-        close(fds[WRITE]);
+        // setup pipe between parent and curses.
+        /*int from_curses, to_curses;*/
+        /*from_curses = server_handshake( &to_curses);*/
+        /*char msg[BUFFER_SIZE];*/
+        /*read(from_curses, msg, BUFFER_SIZE);*/
+
+        /*printf("%s\n", msg);*/
+        
+        
+
+        /*close(fds[WRITE]);*/
         int status;
         wait(&status);
 
