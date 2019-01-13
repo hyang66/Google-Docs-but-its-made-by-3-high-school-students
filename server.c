@@ -40,7 +40,7 @@ int main() {
     int from_client;
 
     while(1) {
-
+      printf("[server]: DOING CLIENT-HANDSHAKE\n");
       from_client = server_handshake( &to_client );
       char msg[BUFFER_SIZE];
 
@@ -51,8 +51,6 @@ int main() {
       int f = fork();
       if(!f) {
         while(read(from_client, msg, BUFFER_SIZE)) {
-          int to_curses, from_curses;
-          from_curses = server_handshake( &to_curses );
           //get filename from client
           printf("[client]: %s\n", msg);
           int line_number = atoi(msg);
@@ -62,6 +60,9 @@ int main() {
           }
           
           // get edited line from client
+          printf("[server]: DOING CURSES-HANDSHAKE\n");
+          int to_curses, from_curses;
+          from_curses = server_handshake( &to_curses );
           read(from_curses,msg,BUFFER_SIZE);
           char NEW_LINE[BUFFER_SIZE];
 
