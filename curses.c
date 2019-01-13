@@ -125,7 +125,7 @@ void draw_text( struct node * head, int l, char* str) {
     /*printf("printed the first half...\n");*/
     /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
     // go to the l+1st arg
-    currnode = get_node(l+1,head);
+    currnode = get_node(l,head);
     // mvprintw the cargo
     while (currnode->next) {
         mvprintw(l+3 + i, 2, "%d %s", l+i+1, currnode->cargo);
