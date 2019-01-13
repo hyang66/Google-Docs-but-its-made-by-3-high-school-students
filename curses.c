@@ -238,27 +238,6 @@ int main( int argc, char** argv ) {
     // print_list(head);
     // printf("test\n");
     // 
-    // write edited line with parent
-    // client writes line to server
-    // server makes the official edit
-        // versions don't get out of sync
-    
-    /*close(fd);*/
-    /*fd = open("haha.txt", O_WRONLY);*/
-    /*lseek(fd, 0, SEEK_SET);*/
-    
-    /*struct node * curnode = head;*/
-    /*while (curnode->cargo) {*/
-        /*write(fd, curnode->cargo, sizeof(curnode->cargo));*/
-        /*printf("[curses]: wrote %s to file\n", curnode->cargo);*/
-        /*curnode = curnode->next;*/
-    /*}*/
-    /*printf("duping begins now\n");*/
-    /*int stdoutfd = dup(STDOUT_FILENO);*/
-    /*dup2(fd, STDOUT_FILENO);*/
-    /*print_list(head);*/
-    /*printf("hmm\n");*/
-    /*dup2(stdoutfd, STDOUT_FILENO);*/
 
     /*print_list(head);*/
     close(fd);

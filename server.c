@@ -51,6 +51,8 @@ int main() {
       int f = fork();
       if(!f) {
         while(read(from_client, msg, BUFFER_SIZE)) {
+          int to_curses, from_curses;
+          from_curses = server_handshake( &to_curses );
           //get filename from client
           printf("[client]: %s\n", msg);
           int line_number = atoi(msg);
@@ -60,6 +62,7 @@ int main() {
           }
           
           // get edited line from client
+          read(from_curses,msg,BUFFER_SIZE);
           char NEW_LINE[BUFFER_SIZE];
 
           // saving the file
