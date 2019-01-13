@@ -16,7 +16,20 @@ static void sighandler(int signo) {
   }
 }
 
+void save_file(int fd, char * new_line) {
+    // make linked list somewhere
+    
+    // get to correct node in linked list and edit its cargo
+    
+}
+
 int main() {
+    // make linked list
+    char input[BUFFER_SIZE];
+    int fd = open("haha.txt", O_RDONLY);
+    read(fd, input, BUFFER_SIZE);
+    struct node * head = read_file(input);
+
     /*int SOMEONE_EDITING = 0;*/
     int lines_being_edited[NUM_LINES];
     
@@ -28,6 +41,7 @@ int main() {
 
     signal(SIGINT, sighandler);
 
+    // server client handshake
     int to_client;
     int from_client;
 
@@ -50,6 +64,18 @@ int main() {
             strcat(msg, "ok");
             write(to_client, msg, BUFFER_SIZE);
           }
+          
+          // get edited line from client
+          char NEW_LINE[BUFFER_SIZE];
+
+          // saving the file
+          int spot = 1;
+          struct node * curnode = head;
+          while (spot < line_number) {
+              curnode = curnode->next;
+              spot++;
+          }
+          curnode->cargo = NEW_LINE;
         }
       }
 
