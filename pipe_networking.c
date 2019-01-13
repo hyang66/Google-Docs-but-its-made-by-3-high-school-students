@@ -21,6 +21,7 @@ int server_handshake(int *to_client) {
   int wkpd = open("wkp", O_RDONLY);
   char pid[HANDSHAKE_BUFFER_SIZE];
   read(wkpd, pid, sizeof(pid));
+  printf("24\n");
   printf(MAGENTA "[server] Message recieved from wkp: %s\n", pid);
 	remove("wkp");
 
@@ -44,6 +45,7 @@ int server_handshake(int *to_client) {
 }
 
 
+
 /*=========================
   client_handshake
   args: int * to_server
@@ -56,11 +58,11 @@ int client_handshake(int *to_server) {
   char pid[HANDSHAKE_BUFFER_SIZE];
   sprintf(pid, "%d", getpid());
   mkfifo(pid, 0644);
-  printf(MAGENTA "[client] pid: %d", getpid());
+  printf(MAGENTA "[client] PID: %d\n", getpid());
 
   *to_server = open("wkp", O_WRONLY);
   write(*to_server, pid, sizeof(pid));
-	printf(MAGENTA "[client] sending pid through wkp: %s\n", pid);
+  printf(MAGENTA "[client] sending pid through wkp: %s\n", pid);
 
   int response = open(pid, O_RDONLY);
   char buf[HANDSHAKE_BUFFER_SIZE];

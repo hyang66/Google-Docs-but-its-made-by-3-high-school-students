@@ -44,7 +44,7 @@ int main() {
       if(!f) {
         while(read(from_client, msg, BUFFER_SIZE)) {
           //get filename from client
-          printf("[client] %s\n", msg);
+          printf("[client]: %s\n", msg);
           int line_number = atoi(msg);
           if (!lines_being_edited[line_number]) {
             strcat(msg, "ok");

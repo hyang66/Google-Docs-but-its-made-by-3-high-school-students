@@ -44,7 +44,7 @@ int main() {
     /*}*/
 
 
-    printf(RESET "[client] enter line number to start editing:\n");
+    printf(RESET "[client] enter line number to start editing: ");
     fgets(linenum, BUFFER_SIZE, stdin);
     linenum[strlen(linenum) - 1] = '\0';
 
@@ -53,6 +53,7 @@ int main() {
     write(to_server, linenum, BUFFER_SIZE);
     read(from_server, rd, BUFFER_SIZE);
     printf("[server]: %s\n", rd);
+
     // after we recieve the ok from the server,
     // fork off a child to edit line
     //      PARENT:
@@ -66,23 +67,28 @@ int main() {
     //      CHILD:
     //          execvp curses and line number
     //
+    
     int fds[2];
     pipe(fds);
     int f = fork();
     if (!f) { // child
         close(fds[READ]);
-        char *args[2];
+        char * cmd = "./curses";
+        char *args[3];
         args[0] = "./curses";
         args[1] = linenum;
+        args[2] = NULL;
 
-        printf("[child of clinet: ready to execvp\n]");
+        printf("[child of client]: ready to execvp\n");
 
-        execvp("./curses", args);
+        execvp(cmd, args);
 
         // child sends line to server
         // server makes edit
     }
     else { // parent
+        printf("[client]: in parent\n");
+
         close(fds[WRITE]);
         int status;
         wait(&status);
