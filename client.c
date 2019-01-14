@@ -189,6 +189,7 @@ int main() {
 
 
 
+    // still in the whiile loop
 
     // send line numbers to server, telling which line we are currently editing
     sprintf(linenum, "%d", line_number);
