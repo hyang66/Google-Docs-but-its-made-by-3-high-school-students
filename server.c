@@ -75,6 +75,9 @@ int main() {
           }
           curnode->cargo = msg;
           printf("[server]: writing to file\n");
+          print_list(head);
+          close(fd);
+          fd = open("haha.txt", O_WRONLY);
           int stdoutfd = dup(STDOUT_FILENO);
           dup2(fd, STDOUT_FILENO);
           print_list(head);
