@@ -35,13 +35,13 @@ run:
 run2:
 	./go
 
-client: client.o pipe_networking.o
-	gcc -o client client.o pipe_networking.o
+client: client.o pipe_networking.o linked_list.o
+	gcc -o client client.o pipe_networking.o -lncurses linked_list.o
 
 server: server.o pipe_networking.o linked_list.o
 	gcc -o server server.o pipe_networking.o linked_list.o
 
-client.o: client.c pipe_networking.h definitions.h linked_list.h
+client.o: client.c pipe_networking.h definitions.h linked_list.h linked_list.h
 	gcc -c client.c 
 
 server.o: server.c pipe_networking.h definitions.h

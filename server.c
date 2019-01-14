@@ -54,17 +54,17 @@ int main() {
           //get filename from client
           printf("[client]: %s\n", msg);
           int line_number = atoi(msg);
-          if (!lines_being_edited[line_number]) {
-            strcat(msg, "ok");
-            write(to_client, msg, BUFFER_SIZE);
+          while (lines_being_edited[line_number]) {
           }
           
-          // get edited line from client
-          printf("[server]: DOING CURSES-HANDSHAKE\n");
-          int to_curses, from_curses;
-          from_curses = server_handshake( &to_curses );
-          read(from_curses,msg,BUFFER_SIZE);
-          char NEW_LINE[BUFFER_SIZE];
+          lines_being_edited[line_number] = 1;
+          strcat(msg, "ok");
+          write(to_client, msg, BUFFER_SIZE);
+          /*// get edited line from client*/
+          /*printf("[server]: DOING CURSES-HANDSHAKE\n");*/
+          /*int to_curses, from_curses;*/
+          /*from_curses = server_handshake( &to_curses );*/
+          read(from_client,msg,BUFFER_SIZE);
 
           // saving the file
           int spot = 1;
@@ -73,13 +73,14 @@ int main() {
               curnode = curnode->next;
               spot++;
           }
-          curnode->cargo = NEW_LINE;
+          curnode->cargo = msg;
+          printf("[server]: writing to file\n");
+          int stdoutfd = dup(STDOUT_FILENO);
+          dup2(fd, STDOUT_FILENO);
+          print_list(head);
+          dup2(stdoutfd, STDOUT_FILENO);
+          printf("[server]: writing sucessful\n");
         }
-        printf("duping begins now\n");
-        /*int stdoutfd = dup(STDOUT_FILENO);*/
-        /*dup2(fd, STDOUT_FILENO);*/
-        print_list(head);
-        /*dup2(stdoutfd, STDOUT_FILENO);*/
       }
 
       }

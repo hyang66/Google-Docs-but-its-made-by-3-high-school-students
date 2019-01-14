@@ -228,14 +228,14 @@ int main( int argc, char** argv ) {
 
     // send this info to the client...
     
-    int to_server, from_server;
-    from_server = client_handshake( &to_server );
+    /*int to_server, from_server;*/
+    /*from_server = client_handshake( &to_server );*/
 
-    struct node * edited_line = get_node(line_number-1, head);
-    edited_line->cargo = str;
-    printf("[curses]: edited_line: %s\n", edited_line->cargo);
+    /*struct node * edited_line = get_node(line_number-1, head);*/
+    /*edited_line->cargo = str;*/
+    /*printf("[curses]: edited_line: %s\n", edited_line->cargo);*/
 
-    write(to_server, str, BUFFER_SIZE);
+    /*write(to_server, str, BUFFER_SIZE);*/
     // print_list(head);
     // printf("test\n");
     // 
