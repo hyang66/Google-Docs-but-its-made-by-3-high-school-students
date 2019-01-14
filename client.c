@@ -146,6 +146,7 @@ int main() {
   char filename[BUFFER_SIZE];
   char rd[BUFFER_SIZE];
   int first_time = 1;
+  int line_number;
 
   while(1) { // us sending requests to the server
       if (first_time) {
@@ -175,13 +176,14 @@ int main() {
             filename[strlen(filename) - 1] = '\0';
             write(to_server, filename, BUFFER_SIZE);
         }
+        printf(RESET "[client] enter line number to start editing: ");
+        fgets(linenum, BUFFER_SIZE, stdin);
+        linenum[strlen(linenum) - 1] = '\0';
+        line_number = atoi(linenum);
       }
 
 
 
-    printf(RESET "[client] enter line number to start editing: ");
-    fgets(linenum, BUFFER_SIZE, stdin);
-    linenum[strlen(linenum) - 1] = '\0';
 
 
     // send line numbers to server, telling which line we are currently editing
@@ -211,7 +213,6 @@ int main() {
 
         // start running curses!!
         /*printf("testing turning a file into a linked list\n");*/
-        int line_number = atoi(linenum);
 
         int fd = open(filename, O_RDONLY);
         /*printf("opened file\n");*/
@@ -339,11 +340,22 @@ int main() {
 
         if (child_arg == Q) {
             // exit out of the loop 
+            printf("[client]: Exiting... File saved.\n");
+            exit(0);
         }
 
         if (child_arg == UP) {
            // linenum = 0
+            if (line_number == 0) {
+                printf("[client]: At line 0, err...\n");
+                continue;
+            }
+            else {
+                printf("[client]: Going back one line...\n");
+                line_number--;
+            }
            // linenum > 0
+           
         }
 
         if (child_arg == ENTER) {
