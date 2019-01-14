@@ -76,13 +76,8 @@ int main() {
           printf("[server]: msg received [%s]\n", msg);
 
           // saving the file
-          int spot = 1;
-          struct node * curnode = head;
-          while (spot < line_number) {
-              curnode = curnode->next;
-              spot++;
-          }
-          strncpy(curnode->cargo, msg, BUFFER_SIZE);
+          struct node * curnode = get_node(line_number-1, head);
+          curnode->cargo = msg;
           printf("[server]: writing to file\n");
           print_list(head);
           close(fd);
