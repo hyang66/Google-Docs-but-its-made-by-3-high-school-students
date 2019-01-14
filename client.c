@@ -355,6 +355,8 @@ int main() {
         if (child_arg == Q) {
             // exit out of the loop 
             printf("[client]: Exiting... File saved.\n");
+            write(to_server, msg, BUFFER_SIZE);
+            printf("[client]: wrote []%s[] to server\n", msg);
             exit(0);
         }
 
@@ -370,7 +372,8 @@ int main() {
             }
            // linenum > 0
            
-        }
+        } // end if child arg up
+        
 
         if (child_arg == ENTER) {
             // tell the server to add new line at that index
@@ -382,11 +385,12 @@ int main() {
         }
     
     // client writes line to server
+    // writing the edited line
         write(to_server, msg, BUFFER_SIZE);
-        printf("[client]: wrote to server\n");
+        printf("[client]: wrote []%s[] to server\n", msg);
     // server makes the official edit
         // versions don't get out of sync
-    }
+    } // end else
 
   } // end while 1
 
