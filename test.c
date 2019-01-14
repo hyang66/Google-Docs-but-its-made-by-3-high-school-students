@@ -27,6 +27,8 @@ int main() {
 
     print_list(head);
 
+    printf("\n");
+
     printf("testing get_node\n");
     print_list(get_node(2,head));
 
