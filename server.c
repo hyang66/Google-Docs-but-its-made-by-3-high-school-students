@@ -47,6 +47,7 @@ int main() {
 
       int f = fork();
       if(!f) {
+        
         while(read(from_client, msg, BUFFER_SIZE)) {
           //get filename from client
           //
@@ -55,7 +56,7 @@ int main() {
           int fd = open(filename, O_RDONLY);
           read(fd, input, BUFFER_SIZE);
           struct node * head = read_file(input);
-          printf("[client]: filename %s\n", filename);
+          printf("[client]: filename [%s]\n", filename);
           
           read(from_client, msg, BUFFER_SIZE);
           printf("[client]: %s\n", msg);
