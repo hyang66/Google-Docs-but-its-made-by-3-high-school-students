@@ -175,7 +175,11 @@ int main() {
             fgets(filename, BUFFER_SIZE, stdin);
             filename[strlen(filename) - 1] = '\0';
             write(to_server, filename, BUFFER_SIZE); // tell server what file we are editing
+            printf("[client]: wrote the filename  [%s]\n", filename);
+        } else {
+            write(to_server, "huh", BUFFER_SIZE);
         }
+
         printf(RESET "[client] enter line number to start editing: ");
         fgets(linenum, BUFFER_SIZE, stdin);
         linenum[strlen(linenum) - 1] = '\0';
@@ -187,9 +191,11 @@ int main() {
 
 
     // send line numbers to server, telling which line we are currently editing
+    sprintf(linenum, "%d", line_number);
     write(to_server, linenum, BUFFER_SIZE);
     read(from_server, rd, BUFFER_SIZE);
     printf("[server]: %s\n", rd);
+    /*sleep(1);*/
 
     // after we recieve the ok from the server,
     // fork off a child to edit line
@@ -258,9 +264,15 @@ int main() {
 
             /*  Loop until user presses 'q'  */
 
-        while ( (ch = getch()) != 'q') {
+        int fd2 = open("log.txt", O_WRONLY);
+        write(fd2, "made it to draw_text.\n", BUFFER_SIZE);
+        while ( 1) {
 
             /*  Delete the old response line, and print a new one  */
+            ch = getch();
+            if (ch == 'q'){
+                break;
+            }
 
             // HANNA LOOK AT THIS
             deleteln();

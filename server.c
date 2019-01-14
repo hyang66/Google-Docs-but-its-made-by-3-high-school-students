@@ -19,7 +19,6 @@ static void sighandler(int signo) {
 
 int main() {
     // make linked list
-    char input[BUFFER_SIZE];
 
     /*int SOMEONE_EDITING = 0;*/
     int lines_being_edited[NUM_LINES];
@@ -48,30 +47,33 @@ int main() {
       int f = fork();
       if(!f) {
         
+        read (from_client, msg, BUFFER_SIZE);
+
+        char filename[BUFFER_SIZE];
+        strncpy(filename, msg, BUFFER_SIZE);
+        int fd = open(filename, O_RDONLY);
+        printf("[client]: filename [%s]\n", filename);
+        // read the file we got into a linked list
+        struct node * head = read_file(filename);
+
         while(read(from_client, msg, BUFFER_SIZE)) {
           //get filename from client
           //
-          char filename[BUFFER_SIZE];
-          strncpy(filename, msg, BUFFER_SIZE);
-          int fd = open(filename, O_RDONLY);
-          read(fd, input, BUFFER_SIZE);
-          struct node * head = read_file(input);
-          printf("[client]: filename [%s]\n", filename);
+
           
-          read(from_client, msg, BUFFER_SIZE);
-          printf("[client]: %s\n", msg);
+          printf("line number:%s\n", msg);
           int line_number = atoi(msg);
           while (lines_being_edited[line_number]) {
+              printf("waiting...\n");
           }
           
           lines_being_edited[line_number] = 1;
-          strcat(msg, "ok");
-          write(to_client, msg, BUFFER_SIZE);
-          /*// get edited line from client*/
-          /*printf("[server]: DOING CURSES-HANDSHAKE\n");*/
-          /*int to_curses, from_curses;*/
-          /*from_curses = server_handshake( &to_curses );*/
-          read(from_client,msg,BUFFER_SIZE);
+          write(to_client, "ok" , BUFFER_SIZE);
+          
+          
+          int r = read(from_client,msg,BUFFER_SIZE);
+          printf("%d", r);
+          printf("[server]: msg received [%s]\n", msg);
 
           // saving the file
           int spot = 1;
@@ -80,7 +82,7 @@ int main() {
               curnode = curnode->next;
               spot++;
           }
-          curnode->cargo = msg;
+          strncpy(curnode->cargo, msg, BUFFER_SIZE);
           printf("[server]: writing to file\n");
           print_list(head);
           close(fd);
