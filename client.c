@@ -143,7 +143,7 @@ int main() {
   from_server = client_handshake( &to_server );
 
   char linenum[BUFFER_SIZE];
-  /*char filename[BUFFER_SIZE];*/
+  char filename[BUFFER_SIZE];
   char rd[BUFFER_SIZE];
   int first_time = 1;
 
@@ -163,19 +163,20 @@ int main() {
           closedir(d);
         }
 
+        char resp[4];
+        printf(RESET "[client] do you want to edit alongside someone who is already editng a file? (y/n)\n");
+        fgets(resp, 4, stdin);
+        resp[strlen(resp) - 1] = '\0';
+        
+        if (!strcmp(resp, "n")){
+
+            printf(RESET "[client] enter filename to start editing:\n");
+            fgets(filename, BUFFER_SIZE, stdin);
+            filename[strlen(filename) - 1] = '\0';
+            write(to_server, filename, BUFFER_SIZE);
+        }
       }
 
-    /*char resp[4];*/
-    /*printf(RESET "[client] do you want to edit alongside someone who is already editng a file? (y/n)\n");*/
-    /*fgets(resp, 4, stdin);*/
-    /*resp[strlen(resp) - 1] = '\0';*/
-    
-    /*if (!strcmp(resp, "n")){*/
-
-        /*printf(RESET "[client] enter filename to start editing:\n");*/
-        /*fgets(filename, BUFFER_SIZE, stdin);*/
-        /*filename[strlen(filename) - 1] = '\0';*/
-    /*}*/
 
 
     printf(RESET "[client] enter line number to start editing: ");
@@ -212,7 +213,7 @@ int main() {
         /*printf("testing turning a file into a linked list\n");*/
         int line_number = atoi(linenum);
 
-        int fd = open("haha.txt", O_RDONLY);
+        int fd = open(filename, O_RDONLY);
         /*printf("opened file\n");*/
 
         char input[500];

@@ -20,9 +20,6 @@ static void sighandler(int signo) {
 int main() {
     // make linked list
     char input[BUFFER_SIZE];
-    int fd = open("haha.txt", O_RDONLY);
-    read(fd, input, BUFFER_SIZE);
-    struct node * head = read_file(input);
 
     /*int SOMEONE_EDITING = 0;*/
     int lines_being_edited[NUM_LINES];
@@ -52,6 +49,15 @@ int main() {
       if(!f) {
         while(read(from_client, msg, BUFFER_SIZE)) {
           //get filename from client
+          //
+          char filename[BUFFER_SIZE];
+          strncpy(filename, msg, BUFFER_SIZE);
+          int fd = open(filename, O_RDONLY);
+          read(fd, input, BUFFER_SIZE);
+          struct node * head = read_file(input);
+          printf("[client]: filename %s\n", filename);
+          
+          read(from_client, msg, BUFFER_SIZE);
           printf("[client]: %s\n", msg);
           int line_number = atoi(msg);
           while (lines_being_edited[line_number]) {
@@ -77,7 +83,7 @@ int main() {
           printf("[server]: writing to file\n");
           print_list(head);
           close(fd);
-          fd = open("haha.txt", O_WRONLY);
+          fd = open(filename, O_WRONLY);
           int stdoutfd = dup(STDOUT_FILENO);
           dup2(fd, STDOUT_FILENO);
           print_list(head);
