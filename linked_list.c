@@ -15,7 +15,7 @@ void print_node(struct node* p) {
             printf("%s\n", p->cargo);
         }
     } else {
-        printf("null\n");
+        /*printf("null\n");*/
     }
 }
 

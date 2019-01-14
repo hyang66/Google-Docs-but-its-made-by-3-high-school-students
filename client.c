@@ -337,6 +337,7 @@ int main() {
         int child_arg = WEXITSTATUS(status);
 
         if (child_arg == Q) {
+            // exit out of the loop 
         }
 
         if (child_arg == UP) {
