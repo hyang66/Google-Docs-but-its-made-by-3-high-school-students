@@ -174,7 +174,7 @@ int main() {
             printf(RESET "[client] enter filename to start editing:\n");
             fgets(filename, BUFFER_SIZE, stdin);
             filename[strlen(filename) - 1] = '\0';
-            write(to_server, filename, BUFFER_SIZE);
+            write(to_server, filename, BUFFER_SIZE); // tell server what file we are editing
         }
         printf(RESET "[client] enter line number to start editing: ");
         fgets(linenum, BUFFER_SIZE, stdin);
@@ -262,6 +262,7 @@ int main() {
 
             /*  Delete the old response line, and print a new one  */
 
+            // HANNA LOOK AT THIS
             deleteln();
             char newc = intprtkey(ch)[0];
             int i = 0;
