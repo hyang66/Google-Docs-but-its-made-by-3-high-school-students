@@ -378,10 +378,11 @@ int main() {
         if (child_arg == ENTER) {
             // tell the server to add new line at that index
             // restart curses with that new line
-            //
+            
             // CURRENTLY can only enter at end of line
             // everything else will be lost
-
+            char ENTERstr[20] = "ENTER|";
+            strcat(msg, ENTERstr);
         }
     
     // client writes line to server

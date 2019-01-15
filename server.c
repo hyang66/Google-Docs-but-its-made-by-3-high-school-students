@@ -85,6 +85,12 @@ int main() {
           printf("read value: %d\n", r);
           printf("[server]: msg received [%s]\n", msg);
 
+          // parse to see if it is enter
+          if (!strncmp(msg, "ENTER|",6)) {
+           printf("[server]: now entering in a new line");
+           // add node to linked list
+           insert(head, " ", line_number);
+          }
           
           // saving the file
           struct node * curnode = get_node(line_number-1, head);
@@ -98,6 +104,8 @@ int main() {
           print_list(head);
           dup2(stdoutfd, STDOUT_FILENO);
           printf("[server]: writing sucessful\n");
+
+          
         }
       }
 

@@ -26,6 +26,23 @@ struct node * insert_front(struct node* p, void * i) {
     return head;
 }
 
+struct node * insert(struct node* head, void * i, int line) {
+    struct node * curnode = head;
+    if (line == 0) {
+        insert_front(head, i);
+    }
+    while (line > 0) {
+        curnode = curnode->next;
+        line--;
+    }
+    struct node * insertnode = malloc(sizeof(struct node));
+    insertnode->cargo = i;
+    insertnode->next = curnode->next;
+
+    curnode->next = insertnode;
+    return head;
+}
+
 struct node * get_node(int line_no, struct node* head) {
   struct node* current = head;
   int count = 0;
