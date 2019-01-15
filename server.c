@@ -51,7 +51,7 @@ int main() {
 
         char filename[BUFFER_SIZE];
         strncpy(filename, msg, BUFFER_SIZE);
-        int fd = open(filename, O_RDONLY);
+        int fd = open(filename, O_RDONLY | O_CREAT);
         printf("[client to us]: filename [%s]\n", filename);
         // read the file we got into a linked list
         char input[FILE_SIZE];

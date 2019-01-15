@@ -321,16 +321,12 @@ int main() {
         char ln[10];
         sprintf(ln, "\n%d", totlength);
         strncat(msg, ln, BUFFER_SIZE);
+        printf("made it to strcat: %s\n", msg);
         write(fds[WRITE], msg, BUFFER_SIZE);
         printf("write sucessful\n");
 
-        /*write(to_server, str, BUFFER_SIZE);*/
-        // print_list(head);
-        // printf("test\n");
-        // 
 
         /*print_list(head);*/
-        close(fd);
 
         if (ch == 0x1b) {
                 exit(Q);
@@ -355,26 +351,31 @@ int main() {
         // setup pipe between parent and child.
         close(fds[WRITE]);
         char msg[BUFFER_SIZE];
-        int i = BUFFER_SIZE;
-        while (i) {
-            msg[BUFFER_SIZE - i] = 0;
-            i --;
-        }
-        read(fds[READ], msg, BUFFER_SIZE);
+		int i = BUFFER_SIZE;
+		while (i) {
+			msg[BUFFER_SIZE - i] = 0;
+			i --;
+		}
+		printf("parents: about to read\n");
+        int r = read(fds[READ], msg, BUFFER_SIZE);
+		printf("%s : %d\n", msg, r);
+		
         
         // we Fucked up bc the first read proabbly reads the second write and then it gets stuck......
+		int len = strlen(msg);
         int n = 0;
-        while (n < strlen(msg)) {
+        while (n < len) {
             if (msg[n] == '\n') {
                 break;
             }
             n ++;
         }
         
-        msg[n] = 0;
+		printf("strlen %d\n", len);
+        msg[n-1] = 0;
         char ln[20];
         int m = 0;
-        while (n<strlen(msg)) {
+        while (n<len) {
             ln[m] = msg[n];
             n ++;
             m ++;
