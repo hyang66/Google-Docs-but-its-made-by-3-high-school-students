@@ -358,6 +358,8 @@ int main() {
             i --;
         }
         read(fds[READ], msg, BUFFER_SIZE);
+        
+        // we Fucked up bc the first read proabbly reads the second write and then it gets stuck......
         // read the edited line
         char ln[10];
         read(fds[READ], ln, BUFFER_SIZE);
