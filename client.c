@@ -45,6 +45,7 @@ char * intprtkey(int ch) {
                      { KEY_DC,        "Delete"          },
                      { KEY_NPAGE,     "Page down"       },
                      { KEY_PPAGE,     "Page up"         },
+                     { KEY_ENTER,     "ENTER"           },
                      { KEY_F(1),      "Function key 1"  },
                      { KEY_F(2),      "Function key 2"  },
                      { KEY_F(3),      "Function key 3"  },
@@ -271,7 +272,7 @@ int main() {
 
             /*  Delete the old response line, and print a new one  */
             ch = getch();
-            if (ch == 'q'){
+            if (ch == 'Q' || ch == 'D' || ch == 'U' || ch == 0xa){
                 break;
             }
 
@@ -324,7 +325,18 @@ int main() {
         /*print_list(head);*/
         close(fd);
 
-        exit(0);
+        if (ch == 'Q') {
+                exit(Q);
+        } 
+        if (ch == 'U') {
+                exit(UP);
+        } 
+        if (ch == 'D') {
+                exit(DOWN);
+        } 
+        if (ch == 0xa) {
+                exit(ENTER);
+        } 
 
 
         // child sends line to server
@@ -381,8 +393,9 @@ int main() {
             
             // CURRENTLY can only enter at end of line
             // everything else will be lost
-            char ENTERstr[20] = "ENTER|";
-            strcat(msg, ENTERstr);
+            char ENTERstr[BUFFER_SIZE] = "ENTER|";
+            strncat(ENTERstr,msg,BUFFER_SIZE);
+            strncpy(msg,ENTERstr,BUFFER_SIZE);
         }
     
     // client writes line to server

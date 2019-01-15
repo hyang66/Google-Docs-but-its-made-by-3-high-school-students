@@ -1,5 +1,5 @@
             ch = getch();
-            if (ch == 'q' || ch == 'D' || ch == 'U'){
+            if (ch == 'Q' || ch == 'D' || ch == 'U' || ch == 0xa){
                 break;
             }
 
@@ -13,6 +13,9 @@ if (ch == 'U') {
 } 
 if (ch == 'D') {
         exit(DOWN);
+} 
+if (ch == 0xa) {
+        exit(ENTER);
 } 
 
 

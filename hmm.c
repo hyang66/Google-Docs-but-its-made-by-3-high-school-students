@@ -90,6 +90,7 @@ char * intprtkey(int ch) {
 				     { KEY_DC,        "Delete"          },
 				     { KEY_NPAGE,     "Page down"       },
 				     { KEY_PPAGE,     "Page up"         },
+                     { KEY_ENTER,     "ENTER"           },
 				     { KEY_F(1),      "Function key 1"  },
 				     { KEY_F(2),      "Function key 2"  },
 				     { KEY_F(3),      "Function key 3"  },

@@ -73,9 +73,9 @@ int main() {
           
           printf("line number:%s\n", msg);
           int line_number = atoi(msg);
-          while (lines_being_edited[line_number]) {
-              printf("waiting...\n");
-          }
+          /*while (lines_being_edited[line_number]) {*/
+              /*printf("waiting...\n");*/
+          /*}*/
           
           lines_being_edited[line_number] = 1;
           write(to_client, "ok" , BUFFER_SIZE);
