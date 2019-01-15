@@ -316,10 +316,13 @@ int main() {
         struct node * edited_line = get_node(line_number-1, head);
         edited_line->cargo = str;
         printf("[curses]: edited_line: %s\n", edited_line->cargo);
-        write(fds[WRITE], edited_line->cargo, BUFFER_SIZE);
+        char msg[BUFFER_SIZE];
+        strncpy(msg, edited_line->cargo, BUFFER_SIZE);
         char ln[10];
-        sprintf(ln, "%d", totlength);
-        write(fds[WRITE], ln, BUFFER_SIZE);
+        sprintf(ln, "\n%d", totlength);
+        strncat(msg, ln, BUFFER_SIZE);
+        write(fds[WRITE], msg, BUFFER_SIZE);
+        printf("write sucessful\n");
 
         /*write(to_server, str, BUFFER_SIZE);*/
         // print_list(head);
@@ -360,13 +363,27 @@ int main() {
         read(fds[READ], msg, BUFFER_SIZE);
         
         // we Fucked up bc the first read proabbly reads the second write and then it gets stuck......
-        // read the edited line
-        char ln[10];
-        read(fds[READ], ln, BUFFER_SIZE);
+        int n = 0;
+        while (n < strlen(msg)) {
+            if (msg[n] == '\n') {
+                break;
+            }
+            n ++;
+        }
+        
+        msg[n] = 0;
+        char ln[20];
+        int m = 0;
+        while (n<strlen(msg)) {
+            ln[m] = msg[n];
+            n ++;
+            m ++;
+        }
+        ln[m] = 0;
         int totlength = atoi(ln);
         
+        printf( "message: %s || lien number: %d", msg, totlength );
 
-        /*printf("%s\n", msg);*/
         
         
 
