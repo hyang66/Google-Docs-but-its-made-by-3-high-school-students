@@ -5,13 +5,13 @@
 
 
 
-if (ch == 'Q') {
+if (ch == 0x1b) {
         exit(Q);
 } 
-if (ch == 'U') {
+if (ch == 0x103) {
         exit(UP);
 } 
-if (ch == 'D') {
+if (ch == 0x102) {
         exit(DOWN);
 } 
 if (ch == 0xa) {
