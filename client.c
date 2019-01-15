@@ -45,6 +45,7 @@ char * intprtkey(int ch) {
                      { KEY_DC,        "Delete"          },
                      { KEY_NPAGE,     "Page down"       },
                      { KEY_PPAGE,     "Page up"         },
+                     { KEY_ENTER,     "ENTER"           },
                      { KEY_F(1),      "Function key 1"  },
                      { KEY_F(2),      "Function key 2"  },
                      { KEY_F(3),      "Function key 3"  },
@@ -175,7 +176,11 @@ int main() {
             fgets(filename, BUFFER_SIZE, stdin);
             filename[strlen(filename) - 1] = '\0';
             write(to_server, filename, BUFFER_SIZE); // tell server what file we are editing
+            printf("[client]: wrote the filename  [%s]\n", filename);
+        } else {
+            write(to_server, "huh", BUFFER_SIZE);
         }
+
         printf(RESET "[client] enter line number to start editing: ");
         fgets(linenum, BUFFER_SIZE, stdin);
         linenum[strlen(linenum) - 1] = '\0';
@@ -185,11 +190,14 @@ int main() {
 
 
 
+    // still in the whiile loop
 
     // send line numbers to server, telling which line we are currently editing
+    sprintf(linenum, "%d", line_number);
     write(to_server, linenum, BUFFER_SIZE);
     read(from_server, rd, BUFFER_SIZE);
     printf("[server]: %s\n", rd);
+    /*sleep(1);*/
 
     // after we recieve the ok from the server,
     // fork off a child to edit line
@@ -217,15 +225,15 @@ int main() {
         int fd = open(filename, O_RDONLY);
         /*printf("opened file\n");*/
 
-        char input[500];
-        int n = 499;
+        /*printf("read file\n");*/
+
+        char input[FILE_SIZE];
+        int n = FILE_SIZE;
         while (n + 1) {
             input[n] = 0;
             n --;
         }
-        read(fd, input, 500);
-        /*printf("read file\n");*/
-
+        read(fd, input, FILE_SIZE);
         struct node * head = read_file(input);
         /*printf("read file into linked list\n");*/
 
@@ -258,9 +266,15 @@ int main() {
 
             /*  Loop until user presses 'q'  */
 
-        while ( (ch = getch()) != 'q') {
+        int fd2 = open("log.txt", O_WRONLY);
+        write(fd2, "made it to draw_text.\n", BUFFER_SIZE);
+        while ( 1) {
 
             /*  Delete the old response line, and print a new one  */
+            ch = getch();
+            if (ch == 'Q' || ch == 'D' || ch == 'U' || ch == 0xa){
+                break;
+            }
 
             // HANNA LOOK AT THIS
             deleteln();
@@ -273,7 +287,7 @@ int main() {
                 str[i-1] = 0;
 
             } else {
-                if (i < 19) {
+                if (i < BUFFER_SIZE - 1) {
                     str[i] = newc;
                     str[i + 1] = 0;
                 }
@@ -311,7 +325,18 @@ int main() {
         /*print_list(head);*/
         close(fd);
 
-        exit(0);
+        if (ch == 'Q') {
+                exit(Q);
+        } 
+        if (ch == 'U') {
+                exit(UP);
+        } 
+        if (ch == 'D') {
+                exit(DOWN);
+        } 
+        if (ch == 0xa) {
+                exit(ENTER);
+        } 
 
 
         // child sends line to server
@@ -342,6 +367,8 @@ int main() {
         if (child_arg == Q) {
             // exit out of the loop 
             printf("[client]: Exiting... File saved.\n");
+            write(to_server, msg, BUFFER_SIZE);
+            printf("[client]: wrote []%s[] to server\n", msg);
             exit(0);
         }
 
@@ -357,23 +384,27 @@ int main() {
             }
            // linenum > 0
            
-        }
+        } // end if child arg up
+        
 
         if (child_arg == ENTER) {
             // tell the server to add new line at that index
             // restart curses with that new line
-            //
+            
             // CURRENTLY can only enter at end of line
             // everything else will be lost
-
+            char ENTERstr[BUFFER_SIZE] = "ENTER|";
+            strncat(ENTERstr,msg,BUFFER_SIZE);
+            strncpy(msg,ENTERstr,BUFFER_SIZE);
         }
     
     // client writes line to server
+    // writing the edited line
         write(to_server, msg, BUFFER_SIZE);
-        printf("[client]: wrote to server\n");
+        printf("[client]: wrote []%s[] to server\n", msg);
     // server makes the official edit
         // versions don't get out of sync
-    }
+    } // end else
 
   } // end while 1
 
