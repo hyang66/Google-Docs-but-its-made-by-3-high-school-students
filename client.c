@@ -224,15 +224,15 @@ int main() {
         int fd = open(filename, O_RDONLY);
         /*printf("opened file\n");*/
 
-        char input[500];
-        int n = 499;
+        /*printf("read file\n");*/
+
+        char input[FILE_SIZE];
+        int n = FILE_SIZE;
         while (n + 1) {
             input[n] = 0;
             n --;
         }
-        read(fd, input, 500);
-        /*printf("read file\n");*/
-
+        read(fd, input, FILE_SIZE);
         struct node * head = read_file(input);
         /*printf("read file into linked list\n");*/
 
@@ -286,7 +286,7 @@ int main() {
                 str[i-1] = 0;
 
             } else {
-                if (i < 19) {
+                if (i < BUFFER_SIZE - 1) {
                     str[i] = newc;
                     str[i + 1] = 0;
                 }

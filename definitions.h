@@ -26,6 +26,7 @@
 // file stuff
 #define WRITE 1
 #define READ 0
+#define FILE_SIZE 1000
 
 // colors
 #define RESET "\x1b[0m"

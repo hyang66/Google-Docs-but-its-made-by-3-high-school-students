@@ -52,9 +52,19 @@ int main() {
         char filename[BUFFER_SIZE];
         strncpy(filename, msg, BUFFER_SIZE);
         int fd = open(filename, O_RDONLY);
-        printf("[client]: filename [%s]\n", filename);
+        printf("[client to us]: filename [%s]\n", filename);
         // read the file we got into a linked list
-        struct node * head = read_file(filename);
+        char input[FILE_SIZE];
+        int n = FILE_SIZE -1;
+        while (n + 1) {
+            input[n] = 0;
+            n --;
+        }
+        read(fd, input, FILE_SIZE);
+        struct node * head = read_file(input);
+        /*printf("[server]: contents of the file\n");*/
+        /*print_list(head);*/
+
 
         while(read(from_client, msg, BUFFER_SIZE)) {
           //get filename from client
@@ -72,14 +82,15 @@ int main() {
           
           
           int r = read(from_client,msg,BUFFER_SIZE);
-          printf("%d", r);
+          printf("read value: %d\n", r);
           printf("[server]: msg received [%s]\n", msg);
 
+          
           // saving the file
           struct node * curnode = get_node(line_number-1, head);
           curnode->cargo = msg;
-          printf("[server]: writing to file\n");
           print_list(head);
+          printf("[server]: writing to file\n");
           close(fd);
           fd = open(filename, O_WRONLY);
           int stdoutfd = dup(STDOUT_FILENO);
