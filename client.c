@@ -235,6 +235,7 @@ int main() {
         }
         read(fd, input, FILE_SIZE);
         struct node * head = read_file(input);
+        int totlength = length(head);
         /*printf("read file into linked list\n");*/
 
 
@@ -315,7 +316,10 @@ int main() {
         struct node * edited_line = get_node(line_number-1, head);
         edited_line->cargo = str;
         printf("[curses]: edited_line: %s\n", edited_line->cargo);
-        write(fds[WRITE], str, BUFFER_SIZE);
+        write(fds[WRITE], edited_line->cargo, BUFFER_SIZE);
+        char ln[10];
+        sprintf(ln, "%d", totlength);
+        write(fds[WRITE], ln, BUFFER_SIZE);
 
         /*write(to_server, str, BUFFER_SIZE);*/
         // print_list(head);
@@ -354,6 +358,11 @@ int main() {
             i --;
         }
         read(fds[READ], msg, BUFFER_SIZE);
+        // read the edited line
+        char ln[10];
+        read(fds[READ], ln, BUFFER_SIZE);
+        int totlength = atoi(ln);
+        
 
         /*printf("%s\n", msg);*/
         
@@ -376,7 +385,6 @@ int main() {
            // linenum = 0
             if (line_number == 0) {
                 printf("[client]: At line 0, err...\n");
-                continue;
             }
             else {
                 printf("[client]: Going back one line...\n");
@@ -387,6 +395,18 @@ int main() {
         } // end if child arg up
         
 
+        if (child_arg == DOWN) {
+           // if at the end
+            if (line_number == totlength) {
+                printf("[client]: At end of text, err...\n");
+            }
+            else {
+                printf("[client]: Going back one line...\n");
+                line_number++;
+            }
+           // linenum > 0
+           
+        } // end if child arg up
         if (child_arg == ENTER) {
             // tell the server to add new line at that index
             // restart curses with that new line

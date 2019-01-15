@@ -104,3 +104,15 @@ struct node * read_file(char* input) {
 
     return head;
 }
+
+int length(struct node* head) {
+    struct node* curnode = head;
+    int length = 0;
+
+    while (curnode) {
+        length++;
+        curnode = curnode->next;
+    }
+
+    return length;
+}

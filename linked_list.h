@@ -13,4 +13,4 @@ struct node * insert(struct node* head, void * i, int line);
 struct node * free_list(struct node* p);
 
 struct node * read_file(char* input);
-
+int length(struct node* head);
