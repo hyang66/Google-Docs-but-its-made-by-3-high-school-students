@@ -328,7 +328,7 @@ int main() {
 
         /*print_list(head);*/
 
-        if (ch == 0x1b) {
+        if (ch == 'Q') {
                 exit(Q);
         } 
         if (ch == 0x103) {
@@ -375,15 +375,19 @@ int main() {
         msg[n-1] = 0;
         char ln[20];
         int m = 0;
+		/*printf(" beforw the while\n");*/
         while (n<len) {
             ln[m] = msg[n];
             n ++;
             m ++;
         }
+		/*printf("afterthe while\n");*/
         ln[m] = 0;
+        printf("b4set totlength\n");
         int totlength = atoi(ln);
+        printf("set totlength\n");
         
-        printf( "message: %s || lien number: %d", msg, totlength );
+        printf( "message: %s || lien number: %d\n", msg, totlength );
 
         
         
@@ -391,6 +395,7 @@ int main() {
         int status;
         wait(&status);
 
+        /*printf("hggfgfg\n");*/
         int child_arg = WEXITSTATUS(status);
 
         if (child_arg == Q) {
