@@ -97,7 +97,7 @@ void draw_text( struct node * head, int l, char* str) {
     /*int l = argv[1]; // this will be the line number*/
 
     // print tne entire file until the line that is currently being edited...
-    
+
 
     mvprintw(2, 10, "The file contains:");
 
@@ -108,14 +108,14 @@ void draw_text( struct node * head, int l, char* str) {
     // while you have trversed less than l-1 args
     while (i) {
     //      mvprintw the cargo
-    
-        mvprintw(l - i + 2, 2, "%d %s", l-i, currnode->cargo);    
+
+        mvprintw(l - i + 2, 2, "%d %s", l-i, currnode->cargo);
         currnode = currnode->next;
         i--;
 
     }
-    
-    // 
+
+    //
     /*printf("printed the first half...\n");*/
     /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
     // go to the l+1st arg
@@ -148,6 +148,7 @@ int main() {
   char rd[BUFFER_SIZE];
   int first_time = 1;
   int line_number;
+  int try_again = 0;
 
   while(1) { // us sending requests to the server
       if (first_time) {
@@ -155,6 +156,7 @@ int main() {
         DIR *d;
         struct dirent *dir;
         d = opendir(".");
+        if (!try_again) {
         if (d)
         {
           printf(CYAN "Here are the directory contents:\n");
@@ -169,7 +171,7 @@ int main() {
         printf(RESET "[client] do you want to edit alongside someone who is already editng a file? (y/n)\n");
         fgets(resp, 4, stdin);
         resp[strlen(resp) - 1] = '\0';
-        
+
         if (!strcmp(resp, "n")){
 
             printf(RESET "[client] enter filename to start editing:\n");
@@ -179,16 +181,39 @@ int main() {
             printf("[client]: wrote the filename  [%s]\n", filename);
         } else {
             write(to_server, "huh", BUFFER_SIZE);
-        }
+        } }
 
         printf(RESET "[client] enter line number to start editing: ");
         fgets(linenum, BUFFER_SIZE, stdin);
         linenum[strlen(linenum) - 1] = '\0';
         line_number = atoi(linenum);
+
+        int fd = open(filename, O_RDONLY);
+        /*printf("opened file\n");*/
+
+        /*printf("read file\n");*/
+
+        char input[FILE_SIZE];
+        int n = FILE_SIZE;
+        while (n + 1) {
+            input[n] = 0;
+            n --;
+        }
+        read(fd, input, FILE_SIZE);
+        struct node * head = read_file(input);
+        int totlength = length(head);
+        if (totlength < line_number) {
+            printf("[server] line number does not exist, please enter a new line less than or equal to %d \n", totlength);
+            first_time = 1;
+            try_again = 1;
+        }
+        else {
+            try_again = 0;
+        }
       }
 
 
-
+    if (!try_again) {
 
     // still in the whiile loop
 
@@ -212,7 +237,7 @@ int main() {
     //      CHILD:
     //          execvp curses and line number
     //
-    
+
     int fds[2];
     pipe(fds);
     int f = fork();
@@ -242,7 +267,7 @@ int main() {
         WINDOW * mainwin;
         int ch;
 
-        
+
         /*  Initialize ncurses  */
 
         if ( (mainwin = initscr()) == NULL ) {
@@ -260,7 +285,7 @@ int main() {
             str[i] = *s;
             s++;
             i ++;
-        } 
+        }
 
 
         draw_text(head, line_number, str);
@@ -298,10 +323,10 @@ int main() {
 
         }
 
-        
 
 
-        
+
+
         /*  Clean up after ourselves  */
 
         delwin(mainwin);
@@ -309,7 +334,7 @@ int main() {
         refresh();
 
         // send this info to the client...
-        
+
         /*int to_server, from_server;*/
         /*from_server = client_handshake( &to_server );*/
 
@@ -331,16 +356,16 @@ int main() {
 
         if (ch == 'Q') {
                 exit(Q);
-        } 
+        }
         if (ch == 0x103) {
                 exit(UP);
-        } 
+        }
         if (ch == 0x102) {
                 exit(DOWN);
-        } 
+        }
         if (ch == 0xa) {
                 exit(ENTER);
-        } 
+        }
 
 
         // child sends line to server
@@ -360,8 +385,8 @@ int main() {
 		printf("parents: about to read\n");
         int r = read(fds[READ], msg, BUFFER_SIZE);
 		printf("%s : %d\n", msg, r);
-		
-        
+
+
         // we Fucked up bc the first read proabbly reads the second write and then it gets stuck......
 		int len = strlen(msg);
         int n = 0;
@@ -371,7 +396,7 @@ int main() {
             }
             n ++;
         }
-        
+
 		printf("strlen %d\n", len);
         msg[n-1] = 0;
         char ln[20];
@@ -387,11 +412,11 @@ int main() {
         printf("b4set totlength\n");
         int totlength = atoi(ln);
         printf("set totlength\n");
-        
+
         printf( "message: %s || lien number: %d\n", msg, totlength );
 
-        
-        
+
+
 
         int status;
         wait(&status);
@@ -400,7 +425,7 @@ int main() {
         int child_arg = WEXITSTATUS(status);
 
         if (child_arg == Q) {
-            // exit out of the loop 
+            // exit out of the loop
             printf("[client]: Exiting... File saved.\n");
             write(to_server, msg, BUFFER_SIZE);
             printf("[client]: wrote []%s[] to server\n", msg);
@@ -417,9 +442,9 @@ int main() {
                 line_number--;
             }
            // linenum > 0
-           
+
         } // end if child arg up
-        
+
 
         else if (child_arg == DOWN) {
            // if at the end
@@ -431,19 +456,19 @@ int main() {
                 line_number++;
             }
            // linenum > 0
-           
+
         } // end if child arg up
         else if (child_arg == ENTER) {
             // tell the server to add new line at that index
             // restart curses with that new line
-            
+
             // CURRENTLY can only enter at end of line
             // everything else will be lost
             char ENTERstr[BUFFER_SIZE] = "ENTER|";
             strncat(ENTERstr,msg,BUFFER_SIZE);
             strncpy(msg,ENTERstr,BUFFER_SIZE);
         }
-    
+
     // client writes line to server
     // writing the edited line
         write(to_server, msg, BUFFER_SIZE);
@@ -451,6 +476,8 @@ int main() {
     // server makes the official edit
         // versions don't get out of sync
     } // end else
+    try_again = 0;
+}// end if
 
   } // end while 1
 
