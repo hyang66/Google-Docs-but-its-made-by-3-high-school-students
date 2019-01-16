@@ -24,6 +24,8 @@ Google Docs but it's made by three high school students
 01/08/19 5pm (Matthew): added structure to client.c
 01/08/19 9pm (Hanna): hanna finally finds out how to actually use ncurses properly; also she adds line numbers.
 01/10/19 10am (Hanna and Josh and Matthew): more structuring
-01/10/19 3pm (Hanna): client /server things work no w :) 
+01/10/19 3pm (Hanna): client /server things work no w :)
 01/13/19 2pm (Matthew): added debugging code and wrote saving code
-01/13/19 10pm (Hanna): well now saving is a thing 
+01/13/19 10pm (Hanna): well now saving is a thing
+01/15/19 4pm (Josh and Matthew): Began work on sockets
+1/15/19 7:30pm (Josh and Hanna): fixed issue with writing to lines not contained in the server
