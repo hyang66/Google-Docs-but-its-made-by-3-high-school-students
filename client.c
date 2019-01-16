@@ -157,36 +157,39 @@ int main() {
         struct dirent *dir;
         d = opendir(".");
         if (!try_again) {
-        if (d)
-        {
-          printf(CYAN "Here are the directory contents:\n");
-          while ((dir = readdir(d)) != NULL)
-          {
-            printf("%s\n", dir->d_name);
-          }
-          closedir(d);
+            if (d)
+            {
+              printf(CYAN "Here are the directory contents:\n");
+              while ((dir = readdir(d)) != NULL)
+              {
+                printf("%s\n", dir->d_name);
+              }
+              closedir(d);
+            }
+
+            char resp[4];
+            printf(RESET "[client] do you want to edit alongside someone who is already editng a file? (y/n)\n");
+            fgets(resp, 4, stdin);
+            resp[strlen(resp) - 1] = '\0';
+
+            if (!strcmp(resp, "n")){
+
+                printf(RESET "[client] enter filename to start editing:\n");
+                fgets(filename, BUFFER_SIZE, stdin);
+                filename[strlen(filename) - 1] = '\0';
+                write(to_server, filename, BUFFER_SIZE); // tell server what file we are editing
+                printf("[client]: wrote the filename  [%s]\n", filename);
+            } else {
+                write(to_server, "huh", BUFFER_SIZE);
+            } 
         }
-
-        char resp[4];
-        printf(RESET "[client] do you want to edit alongside someone who is already editng a file? (y/n)\n");
-        fgets(resp, 4, stdin);
-        resp[strlen(resp) - 1] = '\0';
-
-        if (!strcmp(resp, "n")){
-
-            printf(RESET "[client] enter filename to start editing:\n");
-            fgets(filename, BUFFER_SIZE, stdin);
-            filename[strlen(filename) - 1] = '\0';
-            write(to_server, filename, BUFFER_SIZE); // tell server what file we are editing
-            printf("[client]: wrote the filename  [%s]\n", filename);
-        } else {
-            write(to_server, "huh", BUFFER_SIZE);
-        } }
 
         printf(RESET "[client] enter line number to start editing: ");
         fgets(linenum, BUFFER_SIZE, stdin);
         linenum[strlen(linenum) - 1] = '\0';
         line_number = atoi(linenum);
+
+        printf("line number: %d\n", line_number);
 
         int fd = open(filename, O_RDONLY);
         /*printf("opened file\n");*/
@@ -196,24 +199,27 @@ int main() {
         char input[FILE_SIZE];
         int n = FILE_SIZE;
         while (n + 1) {
-            input[n] = 0;
+            input[n - 1] = 0;
             n --;
         }
+        /*printf("line number: %d\n", line_number);*/
         read(fd, input, FILE_SIZE);
         struct node * head = read_file(input);
         int totlength = length(head);
         if (totlength <= line_number) {
-            printf("[server] line number does not exist, please enter a new line less than %d \n", totlength);
+            printf("[client] line number does not exist, please enter a new line less than %d \n", totlength);
             first_time = 1;
             try_again = 1;
         }
         else {
             try_again = 0;
+            printf("[cleint]: continuing...\n");
         }
       }
 
 
     if (!try_again) {
+    printf("\n---\n[cleint]: continuing, no need to try again...\n------\n");
 
     // still in the whiile loop
 
@@ -255,7 +261,7 @@ int main() {
         char input[FILE_SIZE];
         int n = FILE_SIZE;
         while (n + 1) {
-            input[n] = 0;
+            input[n - 1] = 0;
             n --;
         }
         read(fd, input, FILE_SIZE);
@@ -346,7 +352,7 @@ int main() {
         char ln[10];
         sprintf(ln, "\n%d", totlength);
         strncat(msg, ln, BUFFER_SIZE);
-        printf("made it to strcat: %s\n", msg);
+        /*printf("made it to strcat: %s\n", msg);*/
         write(fds[WRITE], msg, BUFFER_SIZE);
         printf("write sucessful\n");
 
@@ -372,7 +378,7 @@ int main() {
         // server makes edit
     }
     else { // parent
-        printf("[client]: in parent\n");
+        /*printf("[client]: in parent\n");*/
 
         // setup pipe between parent and child.
         close(fds[WRITE]);
@@ -382,12 +388,15 @@ int main() {
 			msg[BUFFER_SIZE - i] = 0;
 			i --;
 		}
-		printf("parents: about to read\n");
+		/*printf("parents: about to read\n");*/
         int r = read(fds[READ], msg, BUFFER_SIZE);
-		printf("%s : %d\n", msg, r);
+        if (r == -1 ) {
+            printf("fuck \n");
+            exit(0);
+        }
+		/*printf("%s : %d\n", msg, r);*/
 
 
-        // we Fucked up bc the first read proabbly reads the second write and then it gets stuck......
 		int len = strlen(msg);
         int n = 0;
         while (n < len) {
@@ -397,8 +406,9 @@ int main() {
             n ++;
         }
 
-		printf("strlen %d\n", len);
-        msg[n-1] = 0;
+		/*printf("strlen %d\n", len);*/
+        msg[n] = 0;
+        n ++;
         char ln[20];
         int m = 0;
 		/*printf(" beforw the while\n");*/
@@ -409,11 +419,11 @@ int main() {
         }
 		/*printf("afterthe while\n");*/
         ln[m] = 0;
-        printf("b4set totlength\n");
+        /*printf("b4set totlength\n");*/
         int totlength = atoi(ln);
-        printf("set totlength\n");
+        /*printf("set totlength\n");*/
 
-        printf( "message: %s || lien number: %d\n", msg, totlength );
+        printf( "message: %s || total length: %d\n", msg, totlength );
 
 
 
@@ -424,23 +434,27 @@ int main() {
         /*printf("hggfgfg\n");*/
         int child_arg = WEXITSTATUS(status);
 
+        printf("[client]: will write [%s] to server\n", msg);
         if (child_arg == Q) {
             // exit out of the loop
+            printf("[client]: USer presssed quit.\n");
             printf("[client]: Exiting... File saved.\n");
             write(to_server, msg, BUFFER_SIZE);
-            printf("[client]: wrote []%s[] to server\n", msg);
+            printf("[client]: wrote [%s] to server\n", msg);
             exit(0);
         }
 
         else if (child_arg == UP) {
            // linenum = 0
-            if (line_number == 0) {
-                printf("[client]: At line 0, err...\n");
+            if (line_number <= 1) {
+                printf("[client]: At line 1, err...\n");
+                line_number = 1;
             }
             else {
                 printf("[client]: Going back one line...\n");
                 line_number--;
             }
+            printf("[client]: USer presssed up.\n, going to line number %d\n", line_number);
            // linenum > 0
 
         } // end if child arg up
@@ -448,13 +462,15 @@ int main() {
 
         else if (child_arg == DOWN) {
            // if at the end
-            if (line_number == totlength) {
+            if (line_number >= totlength - 1) {
                 printf("[client]: At end of text, err...\n");
+                line_number = totlength - 1;
             }
             else {
                 printf("[client]: Going back one line...\n");
                 line_number++;
             }
+            printf("[client]: USer presssed down.\n, going to line number %d\n", line_number);
            // linenum > 0
 
         } // end if child arg up
