@@ -31,3 +31,4 @@ Google Docs but it's made by three high school students
 01/15/19 4pm (Josh and Matthew): Began work on sockets
 1/15/19 7:30pm (Josh and Hanna): fixed issue with writing to lines not contained in the server
 1/15/19 8:00pm (Matthew): sockets added and functioning!
+1/15/19 9:00pm (Josh): Debugging new file errors

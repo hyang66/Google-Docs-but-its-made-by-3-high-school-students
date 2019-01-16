@@ -22,7 +22,7 @@ int main() {
 
     /*int SOMEONE_EDITING = 0;*/
     int lines_being_edited[NUM_LINES];
-    
+
     int i = NUM_LINES;
     while (i) {
         lines_being_edited[NUM_LINES - i] = 0;
@@ -41,17 +41,17 @@ int main() {
       char msg[BUFFER_SIZE];
 
       // find out if client is wants to start a new file or not:
-      
-      
+
+
 
       int f = fork();
       if(!f) {
-        
+
         read (from_client, msg, BUFFER_SIZE);
 
         char filename[BUFFER_SIZE];
         strncpy(filename, msg, BUFFER_SIZE);
-        int fd = open(filename, O_RDONLY | O_CREAT);
+        int fd = open(filename, O_RDONLY | O_CREAT, 0644);
         printf("[client to us]: filename [%s]\n", filename);
         // read the file we got into a linked list
         char input[FILE_SIZE];
@@ -70,17 +70,17 @@ int main() {
           //get filename from client
           //
 
-          
+
           printf("line number:%s\n", msg);
           int line_number = atoi(msg);
           /*while (lines_being_edited[line_number]) {*/
               /*printf("waiting...\n");*/
           /*}*/
-          
+
           lines_being_edited[line_number] = 1;
           write(to_client, "ok" , BUFFER_SIZE);
-          
-          
+
+
           int r = read(from_client,msg,BUFFER_SIZE);
           printf("read value: %d\n", r);
           printf("[server]: msg received [%s]\n", msg);
@@ -91,7 +91,7 @@ int main() {
            // add node to linked list
            insert(head, " ", line_number);
           }
-          
+
           // saving the file
           struct node * curnode = get_node(line_number-1, head);
           curnode->cargo = msg;
@@ -105,7 +105,7 @@ int main() {
           dup2(stdoutfd, STDOUT_FILENO);
           printf("[server]: writing sucessful\n");
 
-          
+
         }
       }
 

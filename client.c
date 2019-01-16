@@ -202,8 +202,8 @@ int main() {
         read(fd, input, FILE_SIZE);
         struct node * head = read_file(input);
         int totlength = length(head);
-        if (totlength < line_number) {
-            printf("[server] line number does not exist, please enter a new line less than or equal to %d \n", totlength);
+        if (totlength <= line_number) {
+            printf("[server] line number does not exist, please enter a new line less than %d \n", totlength);
             first_time = 1;
             try_again = 1;
         }
