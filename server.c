@@ -96,8 +96,8 @@ int main() {
           struct node * curnode = get_node(line_number-1, head);
 
           strncpy(curnode->cargo,  msg, BUFFER_SIZE);
-          print_list(head); // there's a problem
           printf("[server]: writing to file\n");
+          print_list(head); // there's a problem
           close(fd);
           fd = open(filename, O_WRONLY);
           int stdoutfd = dup(STDOUT_FILENO);
@@ -108,6 +108,7 @@ int main() {
 
 
         }
+        exit(0);
       }
 
       }
