@@ -318,9 +318,10 @@ int main() {
             if (ch == 0x7f) {
                 str[i-1] = 0;
 
-            }  if ( ch == 0xa ) {
+            }  else if ( ch == 0xa ) {
                     str[i] = '\n';
-                    str[i + 1] = 0;
+                    str[i + 1] = ' ';
+                    str[i + 2] = 0;
                     break;
 
             } else {
