@@ -304,7 +304,7 @@ int main() {
 
             /*  Delete the old response line, and print a new one  */
             ch = getch();
-            if (ch == 'Q' || ch == 0x103 || ch == 0x102 || ch == 0xa){
+            if (ch == 'Q' || ch == 0x103 || ch == 0x102){
                 break;
             }
 
@@ -318,7 +318,12 @@ int main() {
             if (ch == 0x7f) {
                 str[i-1] = 0;
 
-            }  else {
+            }  if ( ch == 0xa ) {
+                    str[i] = '\n';
+                    str[i + 1] = 0;
+                    break;
+
+            } else {
                 if (i < BUFFER_SIZE - 1) {
                     str[i] = newc;
                     str[i + 1] = 0;
@@ -480,9 +485,11 @@ int main() {
 
             // CURRENTLY can only enter at end of line
             // everything else will be lost
-            char ENTERstr[BUFFER_SIZE] = "ENTER|";
-            strncat(ENTERstr,msg,BUFFER_SIZE);
-            strncpy(msg,ENTERstr,BUFFER_SIZE);
+            /*char ENTERstr[BUFFER_SIZE] = "ENTER|";*/
+            /*strncat(ENTERstr,msg,BUFFER_SIZE);*/
+            /*strncpy(msg,ENTERstr,BUFFER_SIZE);*/
+            line_number++;
+            printf("entered, going down a line \n");
         }
 
     // client writes line to server
