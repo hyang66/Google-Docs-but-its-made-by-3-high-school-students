@@ -54,22 +54,23 @@ int main() {
         int fd = open(filename, O_RDONLY | O_CREAT, 0664);
         printf("[client to us]: filename [%s]\n", filename);
         // read the file we got into a linked list
-        char input[FILE_SIZE];
-        int n = FILE_SIZE -1;
-        while (n + 1) {
-            input[n] = 0;
-            n --;
-        }
-        read(fd, input, FILE_SIZE);
-        struct node * head = read_file(input);
-        /*printf("[server]: contents of the file\n");*/
-        /*print_list(head);*/
+        
 
 
         while(read(from_client, msg, BUFFER_SIZE)) {
           //get filename from client
           //
 
+          char input[FILE_SIZE];
+          int n = FILE_SIZE -1;
+          while (n + 1) {
+              input[n] = 0;
+              n --;
+          }
+          read(fd, input, FILE_SIZE);
+          struct node * head = read_file(input);
+          /*printf("[server]: contents of the file\n");*/
+          /*print_list(head);*/
 
           printf("line number:%s\n", msg);
           int line_number = atoi(msg);
@@ -105,6 +106,8 @@ int main() {
           print_list(head);
           dup2(stdoutfd, STDOUT_FILENO);
           printf("[server]: writing sucessful\n");
+
+          free_list(head);
 
 
         }
