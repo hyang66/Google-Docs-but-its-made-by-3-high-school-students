@@ -273,7 +273,7 @@ int main() {
 
             /*  Delete the old response line, and print a new one  */
             ch = getch();
-            if (ch == 'Q' || ch == 'D' || ch == 'U' || ch == 0xa){
+            if (ch == 'Q' || ch == 0x103 || ch == 0x102 || ch == 0xa){
                 break;
             }
 
@@ -287,7 +287,7 @@ int main() {
             if (ch == 0x7f) {
                 str[i-1] = 0;
 
-            } else {
+            }  else {
                 if (i < BUFFER_SIZE - 1) {
                     str[i] = newc;
                     str[i + 1] = 0;
@@ -327,6 +327,7 @@ int main() {
 
 
         /*print_list(head);*/
+        close(fd);
 
         if (ch == 'Q') {
                 exit(Q);
@@ -406,7 +407,7 @@ int main() {
             exit(0);
         }
 
-        if (child_arg == UP) {
+        else if (child_arg == UP) {
            // linenum = 0
             if (line_number == 0) {
                 printf("[client]: At line 0, err...\n");
@@ -420,7 +421,7 @@ int main() {
         } // end if child arg up
         
 
-        if (child_arg == DOWN) {
+        else if (child_arg == DOWN) {
            // if at the end
             if (line_number == totlength) {
                 printf("[client]: At end of text, err...\n");
@@ -432,7 +433,7 @@ int main() {
            // linenum > 0
            
         } // end if child arg up
-        if (child_arg == ENTER) {
+        else if (child_arg == ENTER) {
             // tell the server to add new line at that index
             // restart curses with that new line
             
