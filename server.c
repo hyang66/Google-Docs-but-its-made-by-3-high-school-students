@@ -94,8 +94,8 @@ int main() {
 
           // saving the file
           struct node * curnode = get_node(line_number-1, head);
-          
-          strncpy(curnode->cargo, msg, BUFFER_SIZE);
+
+          strncpy(curnode->cargo,  msg, BUFFER_SIZE);
           print_list(head); // there's a problem
           printf("[server]: writing to file\n");
           close(fd);

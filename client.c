@@ -181,7 +181,7 @@ int main() {
                 printf("[client]: wrote the filename  [%s]\n", filename);
             } else {
                 write(to_server, "huh", BUFFER_SIZE);
-            } 
+            }
         }
 
         printf(RESET "[client] enter line number to start editing: ");
@@ -405,6 +405,7 @@ int main() {
 
 		int len = strlen(msg);
         int n = 0;
+        //ENTER IS BAD BECAUSE OF \/
         while (n < len) {
             if (msg[n] == '\n') {
                 break;
