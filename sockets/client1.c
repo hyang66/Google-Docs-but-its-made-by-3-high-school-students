@@ -15,11 +15,14 @@
 #include "linked_list.h"
 #include "definitions.h"
 #include "pipe_networking.h"
+// SOCKET CODE
+#include "networking.h"
+//
 #define KCYN  "\x1B[36m"
 #define KMAG  "\x1B[35m"
 #define KNRM  "\x1B[0m"
 
-
+  
 /*  Struct to hold keycode/keyname information  */
 
 struct keydesc {
@@ -97,7 +100,7 @@ void draw_text( struct node * head, int l, char* str) {
     /*int l = argv[1]; // this will be the line number*/
 
     // print tne entire file until the line that is currently being edited...
-    
+
 
     mvprintw(2, 10, "The file contains:");
 
@@ -108,14 +111,14 @@ void draw_text( struct node * head, int l, char* str) {
     // while you have trversed less than l-1 args
     while (i) {
     //      mvprintw the cargo
-    
-        mvprintw(l - i + 2, 2, "%d %s", l-i, currnode->cargo);    
+
+        mvprintw(l - i + 2, 2, "%d %s", l-i, currnode->cargo);
         currnode = currnode->next;
         i--;
 
     }
-    
-    // 
+
+    //
     /*printf("printed the first half...\n");*/
     /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
     // go to the l+1st arg
@@ -136,12 +139,21 @@ void draw_text( struct node * head, int l, char* str) {
 
 }
 
-int main() {
-  int to_server, from_server;
+int main(int argc, char ** argv) {
+  // int to_server, from_server;
 
   /*char buff[BUFFER_SIZE];*/
 
-  from_server = client_handshake( &to_server );
+  // from_server = client_handshake( &to_server );
+
+  // SOCKET CODE
+  int server_socket;
+  /*char buffer[BUFFER_SIZE];*/
+  if (argc == 2)
+    server_socket = client_setup( argv[1]);
+  else
+    server_socket = client_setup( TEST_IP );
+
 
   char linenum[BUFFER_SIZE];
   char filename[BUFFER_SIZE];
@@ -169,16 +181,18 @@ int main() {
         printf(RESET "[client] do you want to edit alongside someone who is already editng a file? (y/n)\n");
         fgets(resp, 4, stdin);
         resp[strlen(resp) - 1] = '\0';
-        
+
         if (!strcmp(resp, "n")){
 
             printf(RESET "[client] enter filename to start editing:\n");
             fgets(filename, BUFFER_SIZE, stdin);
             filename[strlen(filename) - 1] = '\0';
-            write(to_server, filename, BUFFER_SIZE); // tell server what file we are editing
+            //SOCKET CODE
+            write(server_socket, filename, BUFFER_SIZE); // tell server what file we are editing
             printf("[client]: wrote the filename  [%s]\n", filename);
         } else {
-            write(to_server, "huh", BUFFER_SIZE);
+            //SOCKET CODE
+            write(server_socket, "huh", BUFFER_SIZE);
         }
 
         printf(RESET "[client] enter line number to start editing: ");
@@ -194,8 +208,9 @@ int main() {
 
     // send line numbers to server, telling which line we are currently editing
     sprintf(linenum, "%d", line_number);
-    write(to_server, linenum, BUFFER_SIZE);
-    read(from_server, rd, BUFFER_SIZE);
+    //SOCKET CODE
+    write(server_socket, linenum, BUFFER_SIZE);
+    read(server_socket, rd, BUFFER_SIZE);
     printf("[server]: %s\n", rd);
     /*sleep(1);*/
 
@@ -212,9 +227,9 @@ int main() {
     //      CHILD:
     //          execvp curses and line number
     //
-    
+
     int fds[2];
-    pipe(fds);
+    pipe(fds); // PIPE BETWEEN CHILD AND PARENT
     int f = fork();
     if (!f) { // child
         close(fds[READ]);
@@ -242,7 +257,7 @@ int main() {
         WINDOW * mainwin;
         int ch;
 
-        
+
         /*  Initialize ncurses  */
 
         if ( (mainwin = initscr()) == NULL ) {
@@ -260,7 +275,7 @@ int main() {
             str[i] = *s;
             s++;
             i ++;
-        } 
+        }
 
 
         draw_text(head, line_number, str);
@@ -298,10 +313,10 @@ int main() {
 
         }
 
-        
 
 
-        
+
+
         /*  Clean up after ourselves  */
 
         delwin(mainwin);
@@ -309,7 +324,7 @@ int main() {
         refresh();
 
         // send this info to the client...
-        
+
         /*int to_server, from_server;*/
         /*from_server = client_handshake( &to_server );*/
 
@@ -330,16 +345,16 @@ int main() {
 
         if (ch == 0x1b) {
                 exit(Q);
-        } 
+        }
         if (ch == 0x103) {
                 exit(UP);
-        } 
+        }
         if (ch == 0x102) {
                 exit(DOWN);
-        } 
+        }
         if (ch == 0xa) {
                 exit(ENTER);
-        } 
+        }
 
 
         // child sends line to server
@@ -359,8 +374,8 @@ int main() {
 		printf("parents: about to read\n");
         int r = read(fds[READ], msg, BUFFER_SIZE);
 		printf("%s : %d\n", msg, r);
-		
-        
+
+
         // we Fucked up bc the first read proabbly reads the second write and then it gets stuck......
 		int len = strlen(msg);
         int n = 0;
@@ -370,7 +385,7 @@ int main() {
             }
             n ++;
         }
-        
+
 		printf("strlen %d\n", len);
         msg[n-1] = 0;
         char ln[20];
@@ -382,11 +397,11 @@ int main() {
         }
         ln[m] = 0;
         int totlength = atoi(ln);
-        
+
         printf( "message: %s || lien number: %d", msg, totlength );
 
-        
-        
+
+
 
         int status;
         wait(&status);
@@ -394,9 +409,9 @@ int main() {
         int child_arg = WEXITSTATUS(status);
 
         if (child_arg == Q) {
-            // exit out of the loop 
+            // exit out of the loop
             printf("[client]: Exiting... File saved.\n");
-            write(to_server, msg, BUFFER_SIZE);
+            write(server_socket, msg, BUFFER_SIZE);
             printf("[client]: wrote []%s[] to server\n", msg);
             exit(0);
         }
@@ -411,9 +426,9 @@ int main() {
                 line_number--;
             }
            // linenum > 0
-           
+
         } // end if child arg up
-        
+
 
         if (child_arg == DOWN) {
            // if at the end
@@ -425,22 +440,22 @@ int main() {
                 line_number++;
             }
            // linenum > 0
-           
+
         } // end if child arg up
         if (child_arg == ENTER) {
             // tell the server to add new line at that index
             // restart curses with that new line
-            
+
             // CURRENTLY can only enter at end of line
             // everything else will be lost
             char ENTERstr[BUFFER_SIZE] = "ENTER|";
             strncat(ENTERstr,msg,BUFFER_SIZE);
             strncpy(msg,ENTERstr,BUFFER_SIZE);
         }
-    
+
     // client writes line to server
     // writing the edited line
-        write(to_server, msg, BUFFER_SIZE);
+        write(server_socket, msg, BUFFER_SIZE);
         printf("[client]: wrote []%s[] to server\n", msg);
     // server makes the official edit
         // versions don't get out of sync

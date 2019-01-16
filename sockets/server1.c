@@ -6,6 +6,8 @@
 #include <sys/types.h>
 #include "linked_list.h"
 #include "pipe_networking.h"
+// SOCKET CODE
+#include "networking.h"
 
 #define NUM_LINES 78
 
@@ -22,7 +24,7 @@ int main() {
 
     /*int SOMEONE_EDITING = 0;*/
     int lines_being_edited[NUM_LINES];
-    
+
     int i = NUM_LINES;
     while (i) {
         lines_being_edited[NUM_LINES - i] = 0;
@@ -31,23 +33,30 @@ int main() {
 
     signal(SIGINT, sighandler);
 
-    // server client handshake
-    int to_client;
-    int from_client;
+    // // server client handshake
+    // int to_client;
+    // int from_client;
+
+    // SOCKET CODE
+    int listen_socket;
+    listen_socket = server_setup();
 
     while(1) {
-      printf("[server]: DOING CLIENT-HANDSHAKE\n");
-      from_client = server_handshake( &to_client );
+      // printf("[server]: DOING CLIENT-HANDSHAKE\n");
+      // from_client = server_handshake( &to_client );
       char msg[BUFFER_SIZE];
 
+      printf("[server]: DOING SOCKET SETUP\n" );
+      int client_socket = server_connect(listen_socket);
+
       // find out if client is wants to start a new file or not:
-      
-      
+
+
 
       int f = fork();
       if(!f) {
-        
-        read (from_client, msg, BUFFER_SIZE);
+
+        read (client_socket, msg, BUFFER_SIZE);
 
         char filename[BUFFER_SIZE];
         strncpy(filename, msg, BUFFER_SIZE);
@@ -66,22 +75,22 @@ int main() {
         /*print_list(head);*/
 
 
-        while(read(from_client, msg, BUFFER_SIZE)) {
+        while(read(client_socket, msg, BUFFER_SIZE)) {
           //get filename from client
           //
 
-          
+
           printf("line number:%s\n", msg);
           int line_number = atoi(msg);
           /*while (lines_being_edited[line_number]) {*/
               /*printf("waiting...\n");*/
           /*}*/
-          
+
           lines_being_edited[line_number] = 1;
-          write(to_client, "ok" , BUFFER_SIZE);
-          
-          
-          int r = read(from_client,msg,BUFFER_SIZE);
+          write(client_socket, "ok" , BUFFER_SIZE);
+
+
+          int r = read(client_socket,msg,BUFFER_SIZE);
           printf("read value: %d\n", r);
           printf("[server]: msg received [%s]\n", msg);
 
@@ -91,7 +100,7 @@ int main() {
            // add node to linked list
            insert(head, " ", line_number);
           }
-          
+
           // saving the file
           struct node * curnode = get_node(line_number-1, head);
           curnode->cargo = msg;
@@ -105,7 +114,7 @@ int main() {
           dup2(stdoutfd, STDOUT_FILENO);
           printf("[server]: writing sucessful\n");
 
-          
+
         }
       }
 

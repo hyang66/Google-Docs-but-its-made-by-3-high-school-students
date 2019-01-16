@@ -21,7 +21,7 @@
 //linked list
 #define IS_LIST 0
 #define IS_LINE 1
-#define CARGO_MAX 100 
+#define CARGO_MAX 100
 
 // file stuff
 #define WRITE 1
@@ -32,5 +32,11 @@
 #define RESET "\x1b[0m"
 #define MAGENTA "\x1b[35m"
 #define CYAN "\x1b[36m"
+
+// sockets
+
+#define BUFFER_SIZE 256
+#define PORT "9001"
+#define TEST_IP "127.0.0.1"
 
 #endif
