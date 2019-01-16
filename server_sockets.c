@@ -4,12 +4,12 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <sys/types.h>
+
 #include "linked_list.h"
 #include "pipe_networking.h"
-// SOCKET CODE
-#include "networking.h"
+#include "networking.h" // SOCKET CODE
 
-#define NUM_LINES 78
+#define NUM_LINES 45
 
 static void sighandler(int signo) {
   if (signo == SIGINT) {
@@ -33,22 +33,21 @@ int main() {
 
     signal(SIGINT, sighandler);
 
-    // // server client handshake
-    // int to_client;
-    // int client_socket;
+    /*// server client handshake*/
+    /*int to_client;*/
+    /*int from_client;*/
 
     // SOCKET CODE
     int listen_socket;
     listen_socket = server_setup();
 
     while(1) {
-      // printf("[server]: DOING CLIENT-HANDSHAKE\n");
-      // client_socket = server_handshake( &to_client );
+      /*printf("[server]: DOING CLIENT-HANDSHAKE\n");*/
+      /*from_client = server_handshake( &to_client );*/
       char msg[BUFFER_SIZE];
 
-      printf("[server]: DOING SOCKET SETUP\n" );
+      printf("[server]: DOING SOCKET SETUP");
       int client_socket = server_connect(listen_socket);
-
       // find out if client is wants to start a new file or not:
 
 
@@ -60,25 +59,26 @@ int main() {
 
         char filename[BUFFER_SIZE];
         strncpy(filename, msg, BUFFER_SIZE);
-        int fd = open(filename, O_RDONLY | O_CREAT);
+        int fd = open(filename, O_RDONLY | O_CREAT, 0664);
         printf("[client to us]: filename [%s]\n", filename);
         // read the file we got into a linked list
-        char input[FILE_SIZE];
-        int n = FILE_SIZE -1;
-        while (n + 1) {
-            input[n] = 0;
-            n --;
-        }
-        read(fd, input, FILE_SIZE);
-        struct node * head = read_file(input);
-        /*printf("[server]: contents of the file\n");*/
-        /*print_list(head);*/
+        
 
 
         while(read(client_socket, msg, BUFFER_SIZE)) {
           //get filename from client
           //
 
+          char input[FILE_SIZE];
+          int n = FILE_SIZE -1;
+          while (n + 1) {
+              input[n] = 0;
+              n --;
+          }
+          read(fd, input, FILE_SIZE);
+          struct node * head = read_file(input);
+          /*printf("[server]: contents of the file\n");*/
+          /*print_list(head);*/
 
           printf("line number:%s\n", msg);
           int line_number = atoi(msg);
@@ -95,7 +95,7 @@ int main() {
           printf("[server]: msg received [%s]\n", msg);
 
           // parse to see if it is enter
-          if (!strncmp(msg, "ENTER|",6)) {
+          if (!strncmp(msg, "ENTER|", 6)) {
            printf("[server]: now entering in a new line");
            // add node to linked list
            insert(head, " ", line_number);
@@ -103,9 +103,10 @@ int main() {
 
           // saving the file
           struct node * curnode = get_node(line_number-1, head);
-          curnode->cargo = msg;
-          print_list(head);
+
+          strncpy(curnode->cargo,  msg, BUFFER_SIZE);
           printf("[server]: writing to file\n");
+          print_list(head); // there's a problem
           close(fd);
           fd = open(filename, O_WRONLY);
           int stdoutfd = dup(STDOUT_FILENO);
@@ -114,8 +115,11 @@ int main() {
           dup2(stdoutfd, STDOUT_FILENO);
           printf("[server]: writing sucessful\n");
 
+          free_list(head);
+
 
         }
+        exit(0);
       }
 
       }
