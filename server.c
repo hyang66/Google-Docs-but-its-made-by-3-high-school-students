@@ -7,7 +7,7 @@
 #include "linked_list.h"
 #include "pipe_networking.h"
 
-#define NUM_LINES 78
+#define NUM_LINES 45
 
 static void sighandler(int signo) {
   if (signo == SIGINT) {
@@ -51,7 +51,7 @@ int main() {
 
         char filename[BUFFER_SIZE];
         strncpy(filename, msg, BUFFER_SIZE);
-        int fd = open(filename, O_RDONLY | O_CREAT, 0644);
+        int fd = open(filename, O_RDONLY | O_CREAT, 0664);
         printf("[client to us]: filename [%s]\n", filename);
         // read the file we got into a linked list
         char input[FILE_SIZE];
@@ -86,7 +86,7 @@ int main() {
           printf("[server]: msg received [%s]\n", msg);
 
           // parse to see if it is enter
-          if (!strncmp(msg, "ENTER|",6)) {
+          if (!strncmp(msg, "ENTER|", 6)) {
            printf("[server]: now entering in a new line");
            // add node to linked list
            insert(head, " ", line_number);
@@ -94,7 +94,8 @@ int main() {
 
           // saving the file
           struct node * curnode = get_node(line_number-1, head);
-          curnode->cargo = msg;
+          
+          strncpy(curnode->cargo, msg, BUFFER_SIZE);
           print_list(head); // there's a problem
           printf("[server]: writing to file\n");
           close(fd);
