@@ -31,8 +31,10 @@ int main() {
 
     printf("testing get_node\n");
     struct node * cur = get_node(1,head);
-    strncpy(cur->cargo, "uwu (line 3)", 13);
-    strcpy(cur->next->cargo, "uwu (line 3)");
+    strncpy(cur->cargo, "uwu (line 2)", 13);
+    printf("testing insert \n");
+    head  = insert_front(head, "new first line");
+    head = insert(head, "new third line", 2);
 
     print_list(head);
 

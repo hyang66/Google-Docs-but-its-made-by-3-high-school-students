@@ -31,13 +31,8 @@ struct node * insert(struct node* head, char * i, int line) {
     if (line == 0) {
         insert_front(head, i);
     }
-    while (line > 0) {
-        curnode = curnode->next;
-        line--;
-    }
-    struct node * insertnode = malloc(sizeof(struct node));
-    strncpy(head->cargo, i, CARGO_MAX);
-    insertnode->next = curnode->next;
+    curnode = get_node (line - 1, head);
+    struct node * insertnode = insert_front(curnode->next, i);
 
     curnode->next = insertnode;
     return head;

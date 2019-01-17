@@ -104,6 +104,11 @@ int main() {
                    printf("[server]: now entering in a new line");
                    // add node to linked list
                    insert(head, " ", line_number);
+                   int t = 6;
+                   while (t < BUFFER_SIZE) {
+                       msg[t-6] = msg[t];
+                       t++;
+                   }
               } else{
                   printf("there was no enter\n");
               }
