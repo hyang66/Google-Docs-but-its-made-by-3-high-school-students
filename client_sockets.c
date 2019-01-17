@@ -172,7 +172,7 @@ int main(int argc, char ** argv) {
 
   char linenum[BUFFER_SIZE];
   char filename[BUFFER_SIZE];
-  char rd[BUFFER_SIZE];
+  /*char rd[BUFFER_SIZE];*/
   int first_time = 1;
   int line_number;
   int try_again = 0;
@@ -272,7 +272,7 @@ int main(int argc, char ** argv) {
         // start running curses!!
         /*printf("testing turning a file into a linked list\n");*/
 
-        int fd = open(filename, O_RDONLY);
+        /*int fd = open(filename, O_RDONLY);*/
         /*printf("opened file\n");*/
 
         /*printf("read file\n");*/

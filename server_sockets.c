@@ -116,7 +116,7 @@ int main() {
               if (!strncmp(msg, "ENTER|", 6)) {
                    printf("[server]: now entering in a new line");
                    // add node to linked list
-                   insert(head, " ", line_number);
+                   insert(head, "", line_number);
                    int t = 6;
                    while (t < BUFFER_SIZE) {
                        msg[t-6] = msg[t];
