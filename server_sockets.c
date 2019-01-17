@@ -55,10 +55,20 @@ int main() {
       int f = fork();
       if(!f) {
 
-        read (client_socket, msg, BUFFER_SIZE);
-
         char filename[BUFFER_SIZE];
-        strncpy(filename, msg, BUFFER_SIZE);
+
+        // checking whether y or n answer
+        read(client_socket, msg, BUFFER_SIZE);
+        if (!strncmp(msg, "n", 1)) {
+            continue;
+        }
+        else if (!strncmp(msg, "y", 1)) {
+            read (client_socket, msg, BUFFER_SIZE);
+            // copy msg into filename
+            strncpy(filename, msg, BUFFER_SIZE);
+        }
+
+
         int fd = open(filename, O_RDONLY | O_CREAT, 0664);
         printf("[client to us]: filename [%s]\n", filename);
         // read the file we got into a linked list
