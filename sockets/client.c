@@ -10,6 +10,8 @@ int main(int argc, char **argv) {
   else
     server_socket = client_setup( TEST_IP );
 
+  /*printf("TEST_IP: %s", TEST_IP);*/
+
   while (1) {
     printf("enter data: ");
     fgets(buffer, sizeof(buffer), stdin);
