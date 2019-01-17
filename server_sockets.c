@@ -116,7 +116,7 @@ int main() {
 
               /*printf("[server]: contents of the file\n");*/
               /*print_list(head);*/
-              strncpy(curnode->cargo, msg, strlen(msg));
+              strncpy(curnode->cargo, msg, CARGO_MAX);
               printf("so heres the strcpy\n");
               printf("[server]: writing to file\n");
               print_list(head); // there's a problem
