@@ -90,23 +90,26 @@ int main() {
           write(client_socket, "ok" , BUFFER_SIZE);
 
 
-          int r = read(client_socket,msg,BUFFER_SIZE);
-          printf("read value: %d\n", r);
+          /* int r = */read(client_socket,msg,BUFFER_SIZE);
+          /*printf("read value: %d\n", r);*/
           printf("[server]: msg received [%s]\n", msg);
 
-          /*// parse to see if it is enter*/
-          /*if (!strncmp(msg, "ENTER|", 6)) {*/
-           /*printf("[server]: now entering in a new line");*/
-           /*// add node to linked list*/
-           /*insert(head, " ", line_number);*/
-          /*}*/
+          // parse to see if it is enter
+          if (!strncmp(msg, "ENTER|", 6)) {
+               printf("[server]: now entering in a new line");
+               // add node to linked list
+               insert(head, " ", line_number);
+          }
 
           // saving the file
           struct node * curnode = get_node(line_number-1, head);
 
-          strncpy(curnode->cargo, msg, BUFFER_SIZE);
+          /*printf("[server]: contents of the file\n");*/
+          /*print_list(head);*/
+          strcpy(curnode->cargo, msg );
           printf("[server]: writing to file\n");
           print_list(head); // there's a problem
+          printf("[server]: end of list\n");
           close(fd);
           fd = open(filename, O_WRONLY);
           int stdoutfd = dup(STDOUT_FILENO);
