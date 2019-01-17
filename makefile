@@ -41,7 +41,22 @@ client: client.o pipe_networking.o linked_list.o
 server: server.o pipe_networking.o linked_list.o
 	gcc -o server server.o pipe_networking.o linked_list.o
 
-client.o: client.c pipe_networking.h definitions.h linked_list.h linked_list.h
+client_sockets: networking.o linked_list.o client_sockets.o
+	gcc -o client_sockets client_sockets.o networking.o linked_list.o -lncurses
+
+server_sockets: networking.o linked_list.o server_sockets.o
+	gcc -o server_sockets server_sockets.o networking.o linked_list.o
+
+client_sockets.o: client_sockets.c networking.h linked_list.h definitions.h
+	gcc -c client_sockets.c 
+
+server_sockets.o: server_sockets.c networking.h linked_list.h definitions.h
+	gcc -c server_sockets.c 
+
+networking.o: networking.c networking.h
+	gcc -c networking.c
+
+client.o: client.c pipe_networking.h definitions.h linked_list.h 
 	gcc -c client.c 
 
 server.o: server.c pipe_networking.h definitions.h

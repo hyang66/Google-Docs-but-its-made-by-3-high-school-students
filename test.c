@@ -15,7 +15,7 @@ int main() {
 
     printf("testing turning a file into a linked list\n");
 
-    int fd = open("haha.txt", O_RDONLY);
+    int fd = open("h", O_RDONLY);
     printf("opened file\n");
 
     char input[500];
@@ -30,56 +30,16 @@ int main() {
     printf("\n");
 
     printf("testing get_node\n");
-    print_list(get_node(2,head));
+    struct node * cur = get_node(1,head);
+    strncpy(cur->cargo, "uwu (line 2)", 13);
+    printf("testing insert \n");
+    head  = insert_front(head, "new first line");
+    head = insert(head, "new third line", 2);
 
-    char* str = head->next->cargo;
-
-    printf("Press a key ('q' to quit and save this line)...");
-
-    /*int l = argv[1]; // this will be the line number*/
-    int l = 2;
-
-    // print tne entire file until the line that is currently being edited...
-    
-
-
-    printf("some seetupt\n");
-    // print the rest of the file ( and save a space for the line we are editng to be printed )
-    int i = l - 1;
-    struct node * currnode = head;
-    // while you have trversed less than l-1 args
-    while (i) {
-    //      mvprintw the cargo
-    
-        printf("%s\n", currnode->cargo);    
-        currnode = currnode->next;
-        i--;
-
-    }
-    // 
-    printf("printed the first half...\n");
-    /*mvprintw(5, 10, "%s", head->next->next->cargo);*/
-    // go to the l+1st arg
-    currnode = get_node(l+1,head);
-    // mvprintw the cargo
-    while (currnode->next) {
-        printf("%s\n", currnode->cargo);
-        currnode = currnode->next;
-        i++;
-
-    }
-    /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
-
-    //print out the line we are currently editing.
-    printf( "%s\n***\n", str);
-
-
-    printf("duping begins now\n");
-    int stdoutfd = dup(STDOUT_FILENO);
-    dup2(fd, STDOUT_FILENO);
     print_list(head);
-    printf("hmm\n");
-    dup2(stdoutfd, STDOUT_FILENO);
+
+
+    
 
 
 }

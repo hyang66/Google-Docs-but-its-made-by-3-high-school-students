@@ -19,25 +19,20 @@ void print_node(struct node* p) {
     }
 }
 
-struct node * insert_front(struct node* p, void * i) {
+struct node * insert_front(struct node* p, char * i) {
     struct node* head = malloc(sizeof(struct node));
-    head->cargo = i;
+    strncpy(head->cargo, i, CARGO_MAX);
     head->next = p;
     return head;
 }
 
-struct node * insert(struct node* head, void * i, int line) {
+struct node * insert(struct node* head, char * i, int line) {
     struct node * curnode = head;
     if (line == 0) {
         insert_front(head, i);
     }
-    while (line > 0) {
-        curnode = curnode->next;
-        line--;
-    }
-    struct node * insertnode = malloc(sizeof(struct node));
-    insertnode->cargo = i;
-    insertnode->next = curnode->next;
+    curnode = get_node (line - 1, head);
+    struct node * insertnode = insert_front(curnode->next, i);
 
     curnode->next = insertnode;
     return head;
@@ -79,7 +74,7 @@ struct node * read_file(char* input) {
         char* str = calloc(sizeof(char), CARGO_MAX);
         strncpy(str, s, CARGO_MAX);
         // printf("[%s]\n", s);
-        currnode->cargo = str;
+        strncpy(currnode->cargo, str, CARGO_MAX);
         // printf("expect to see the line: []%s[]\n", currnode->cargo);
         // printf("expect to see nothing: %c\n", str[75]);
         currnode->next = malloc(sizeof(struct node));

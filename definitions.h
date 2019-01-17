@@ -21,7 +21,7 @@
 //linked list
 #define IS_LIST 0
 #define IS_LINE 1
-#define CARGO_MAX 100 
+#define CARGO_MAX 1000
 
 // file stuff
 #define WRITE 1
