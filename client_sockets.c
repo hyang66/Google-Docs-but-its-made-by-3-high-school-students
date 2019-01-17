@@ -486,11 +486,11 @@ int main(int argc, char ** argv) {
 
             // CURRENTLY can only enter at end of line
             // everything else will be lost
-            /*char ENTERstr[BUFFER_SIZE] = "ENTER|";*/
-            /*strncat(ENTERstr,msg,BUFFER_SIZE);*/
-            /*strncpy(msg,ENTERstr,BUFFER_SIZE);*/
-            line_number++;
-            printf("entered, going down a line \n");
+            char ENTERstr[BUFFER_SIZE] = "ENTER|";
+            strncat(ENTERstr,msg,BUFFER_SIZE);
+            strncpy(msg,ENTERstr,BUFFER_SIZE);
+            /*line_number++;*/
+            /*printf("entered, going down a line \n");*/
         }
 
     // client writes line to server
