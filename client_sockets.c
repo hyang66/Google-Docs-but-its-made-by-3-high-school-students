@@ -315,6 +315,7 @@ int main(int argc, char ** argv) {
                 i ++;
             }
             if (ch == 0x7f) {
+                str[i] = 0;
                 str[i-1] = 0;
 
             }  else if ( ch == 0xa ) {
@@ -324,7 +325,7 @@ int main(int argc, char ** argv) {
                     break;
 
             }  else {
-                if (i < BUFFER_SIZE - 1) {
+                if (i < CARGO_MAX - 1) {
                     str[i] = newc;
                     str[i + 1] = 0;
                 }
@@ -350,13 +351,13 @@ int main(int argc, char ** argv) {
         /*from_server = client_handshake( &to_server );*/
 
         struct node * edited_line = get_node(line_number-1, head);
-        edited_line->cargo = str;
+        strncpy(edited_line->cargo, str, CARGO_MAX);
         printf("[curses]: edited_line: %s\n", edited_line->cargo);
-        char msg[BUFFER_SIZE];
-        strncpy(msg, edited_line->cargo, BUFFER_SIZE);
+        char msg[CARGO_MAX];
+        strncpy(msg, edited_line->cargo, CARGO_MAX);
         char ln[10];
         sprintf(ln, "\n%d", totlength);
-        strncat(msg, ln, BUFFER_SIZE);
+        strncat(msg, ln, CARGO_MAX);
         /*printf("made it to strcat: %s\n", msg);*/
         write(fds[WRITE], msg, BUFFER_SIZE);
         printf("write sucessful\n");
@@ -387,10 +388,10 @@ int main(int argc, char ** argv) {
 
         // setup pipe between parent and child.
         close(fds[WRITE]);
-        char msg[BUFFER_SIZE];
-		int i = BUFFER_SIZE;
+        char msg[CARGO_MAX];
+		int i = CARGO_MAX;
 		while (i) {
-			msg[BUFFER_SIZE - i] = 0;
+			msg[CARGO_MAX - i] = 0;
 			i --;
 		}
 		/*printf("parents: about to read\n");*/
@@ -486,9 +487,9 @@ int main(int argc, char ** argv) {
 
             // CURRENTLY can only enter at end of line
             // everything else will be lost
-            char ENTERstr[BUFFER_SIZE] = "ENTER|";
-            strncat(ENTERstr,msg,BUFFER_SIZE);
-            strncpy(msg,ENTERstr,BUFFER_SIZE);
+            char ENTERstr[CARGO_MAX] = "ENTER|";
+            strncat(ENTERstr,msg,CARGO_MAX);
+            strncpy(msg,ENTERstr,CARGO_MAX);
             /*line_number++;*/
             /*printf("entered, going down a line \n");*/
         }
