@@ -240,20 +240,6 @@ int main(int argc, char ** argv) {
     printf("[server]: %s\n", rd);
     /*sleep(1);*/
 
-    // after we recieve the ok from the server,
-    // fork off a child to edit line
-    //      PARENT:
-    //          wait for child
-    //          child can return one of arrows or q
-    //              q: 0
-    //              up: 1
-    //              down: 2
-    //          change line number if needed
-    //          if q: done
-    //      CHILD:
-    //          execvp curses and line number
-    //
-
     int fds[2];
     pipe(fds);
     int f = fork();
@@ -312,9 +298,9 @@ int main(int argc, char ** argv) {
         write(fd2, "made it to draw_text.\n", BUFFER_SIZE);
         while ( 1) {
 
-            /*  Delete the old response line, and print a new one  */
             ch = getch();
             if (ch == 'Q' || ch == 0x103 || ch == 0x102){
+                // if user presses quit, up or down
                 break;
             }
 
@@ -334,7 +320,7 @@ int main(int argc, char ** argv) {
                     str[i + 2] = 0;
                     break;
 
-            } else {
+            }  else {
                 if (i < BUFFER_SIZE - 1) {
                     str[i] = newc;
                     str[i + 1] = 0;
@@ -516,18 +502,5 @@ int main(int argc, char ** argv) {
 
   } // end while 1
 
-    // server client handshake
-    //
-    //
-    // display the text, wait for user to pick what line to edit
-    //
-    //
-    //
-
-    // checks for keybindings
-    //
-    // ~ for help menu
-    // i for edit
-    // o for new line
     return 0;
 }

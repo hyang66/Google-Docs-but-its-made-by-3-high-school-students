@@ -46,7 +46,7 @@ int main() {
       /*from_client = server_handshake( &to_client );*/
       char msg[BUFFER_SIZE];
 
-      printf("[server]: DOING SOCKET SETUP");
+      printf("[server]: DOING SOCKET SETUP\n");
       int client_socket = server_connect(listen_socket);
       // find out if client is wants to start a new file or not:
 
@@ -77,8 +77,8 @@ int main() {
           }
           read(fd, input, FILE_SIZE);
           struct node * head = read_file(input);
-          /*printf("[server]: contents of the file\n");*/
-          /*print_list(head);*/
+          printf("[server]: contents of the file\n");
+          print_list(head);
 
           printf("line number:%s\n", msg);
           int line_number = atoi(msg);
@@ -94,17 +94,17 @@ int main() {
           printf("read value: %d\n", r);
           printf("[server]: msg received [%s]\n", msg);
 
-          // parse to see if it is enter
-          if (!strncmp(msg, "ENTER|", 6)) {
-           printf("[server]: now entering in a new line");
-           // add node to linked list
-           insert(head, " ", line_number);
-          }
+          /*// parse to see if it is enter*/
+          /*if (!strncmp(msg, "ENTER|", 6)) {*/
+           /*printf("[server]: now entering in a new line");*/
+           /*// add node to linked list*/
+           /*insert(head, " ", line_number);*/
+          /*}*/
 
           // saving the file
           struct node * curnode = get_node(line_number-1, head);
 
-          strncpy(curnode->cargo,  msg, BUFFER_SIZE);
+          strncpy(curnode->cargo, msg, BUFFER_SIZE);
           printf("[server]: writing to file\n");
           print_list(head); // there's a problem
           close(fd);
