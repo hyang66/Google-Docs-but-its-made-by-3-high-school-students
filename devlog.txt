@@ -32,3 +32,4 @@ Google Docs but it's made by three high school students
 1/15/19 7:30pm (Josh and Hanna): fixed issue with writing to lines not contained in the server
 1/15/19 8:00pm (Matthew): sockets added and functioning!
 1/15/19 9:00pm (Josh): Debugging new file errors
+1/16/19 11:00pm (Hanna): ok so now you can go UP and DOWN and the program doesnt break -- however, when you go down it adds a lot of new lines to the end of the text file...
