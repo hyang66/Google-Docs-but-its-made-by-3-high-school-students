@@ -58,15 +58,17 @@ int main() {
         char filename[BUFFER_SIZE];
 
         // checking whether y or n answer
-        read(client_socket, msg, BUFFER_SIZE);
-        if (!strncmp(msg, "n", 1)) {
-            continue;
-        }
-        else if (!strncmp(msg, "y", 1)) {
-            read (client_socket, msg, BUFFER_SIZE);
-            // copy msg into filename
-            strncpy(filename, msg, BUFFER_SIZE);
-        }
+        // read(client_socket, msg, BUFFER_SIZE);
+        // if (!strncmp(msg, "n", 1)) {
+        //     continue;
+        // }
+        // else if (!strncmp(msg, "y", 1)) {
+        //     read (client_socket, msg, BUFFER_SIZE);
+        //     // copy msg into filename
+        //     strncpy(filename, msg, BUFFER_SIZE);
+        // }
+
+        read(client_socket, filename, BUFFER_SIZE);
 
 
         int fd = open(filename, O_RDONLY | O_CREAT, 0664);
@@ -90,9 +92,6 @@ int main() {
               printf ("read value: %d\n", a);
               printf("file before we turn it into ll: %s\n",input );
 
-              struct node * head = read_file(input);
-              printf("[server]: contents of the file\n");
-              print_list(head);
 
               printf("line number:%s\n", msg);
 
@@ -103,7 +102,11 @@ int main() {
 
               lines_being_edited[line_number] = 1;
               write(client_socket, input , BUFFER_SIZE);
+              printf("file after we write: %s\n",input );
 
+              struct node * head = read_file(input);
+              printf("[server]: contents of the file\n");
+              print_list(head);
 
               /* int r = */read(client_socket,msg,BUFFER_SIZE);
               /*printf("read value: %d\n", r);*/
