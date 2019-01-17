@@ -235,8 +235,11 @@ int main(int argc, char ** argv) {
 
     // send line numbers to server, telling which line we are currently editing
     sprintf(linenum, "%d", line_number);
+    printf("tellinf server line number\n");
     write(server_socket, linenum, BUFFER_SIZE);
+    printf("done tellinf server line number\n");
     read(server_socket, rd, BUFFER_SIZE);
+    printf("waitng fro the ok\n");
     printf("[server]: %s\n", rd);
     /*sleep(1);*/
 

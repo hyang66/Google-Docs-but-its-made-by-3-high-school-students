@@ -30,8 +30,9 @@ int main() {
     printf("\n");
 
     printf("testing get_node\n");
-    struct node * cur = get_node(2,head);
-    strcpy(cur->cargo, "uwu (line 3)");
+    struct node * cur = get_node(1,head);
+    strncpy(cur->cargo, "uwu (line 3)", 13);
+    strcpy(cur->next->cargo, "uwu (line 3)");
 
     print_list(head);
 

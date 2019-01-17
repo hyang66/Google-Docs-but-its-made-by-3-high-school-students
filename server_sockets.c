@@ -66,63 +66,77 @@ int main() {
 
 
         while(read(client_socket, msg, BUFFER_SIZE)) {
-          //get filename from client
-          //
+              //
+             printf("got the line number!!\n");
 
-          char input[FILE_SIZE];
-          int n = FILE_SIZE -1;
-          while (n + 1) {
-              input[n] = 0;
-              n --;
-          }
-          read(fd, input, FILE_SIZE);
-          struct node * head = read_file(input);
-          printf("[server]: contents of the file\n");
-          print_list(head);
+              char input[FILE_SIZE];
+              int n = FILE_SIZE -1;
+              while (n + 1) {
+                  input[n] = 0;
+                  n --;
+              }
+              fd = open(filename, O_RDONLY);
+              int a = read(fd, input, FILE_SIZE);
+              printf ("read value: %d\n", a);
+              printf("file before we turn it into ll: %s\n",input );
+              
+              struct node * head = read_file(input);
+              printf("[server]: contents of the file\n");
+              print_list(head);
 
-          printf("line number:%s\n", msg);
-          int line_number = atoi(msg);
-          /*while (lines_being_edited[line_number]) {*/
-              /*printf("waiting...\n");*/
-          /*}*/
+              printf("line number:%s\n", msg);
+              
+              int line_number = atoi(msg);
+              /*while (lines_being_edited[line_number]) {*/
+                  /*printf("waiting...\n");*/
+              /*}*/
 
-          lines_being_edited[line_number] = 1;
-          write(client_socket, "ok" , BUFFER_SIZE);
-
-
-          /* int r = */read(client_socket,msg,BUFFER_SIZE);
-          /*printf("read value: %d\n", r);*/
-          printf("[server]: msg received [%s]\n", msg);
-
-          // parse to see if it is enter
-          if (!strncmp(msg, "ENTER|", 6)) {
-               printf("[server]: now entering in a new line");
-               // add node to linked list
-               insert(head, " ", line_number);
-          }
-
-          // saving the file
-          struct node * curnode = get_node(line_number-1, head);
-
-          /*printf("[server]: contents of the file\n");*/
-          /*print_list(head);*/
-          strcpy(curnode->cargo, msg );
-          printf("[server]: writing to file\n");
-          print_list(head); // there's a problem
-          printf("[server]: end of list\n");
-          close(fd);
-          fd = open(filename, O_WRONLY);
-          int stdoutfd = dup(STDOUT_FILENO);
-          dup2(fd, STDOUT_FILENO);
-          print_list(head);
-          dup2(stdoutfd, STDOUT_FILENO);
-          printf("[server]: writing sucessful\n");
-
-          free_list(head);
+              lines_being_edited[line_number] = 1;
+              write(client_socket, "ok" , BUFFER_SIZE);
 
 
-        }
-        exit(0);
+              /* int r = */read(client_socket,msg,BUFFER_SIZE);
+              /*printf("read value: %d\n", r);*/
+              printf("[server]: msg received [%s]\n", msg);
+
+              // parse to see if it is enter
+              if (!strncmp(msg, "ENTER|", 6)) {
+                   printf("[server]: now entering in a new line");
+                   // add node to linked list
+                   insert(head, " ", line_number);
+              } else{
+                  printf("there was no enter\n");
+              }
+
+              // saving the file
+              printf("[server]: contents of the file\n");
+              print_list(head);
+              struct node * curnode = get_node(line_number-1, head);
+              printf("got the node: %s\n", curnode->cargo);
+
+              /*printf("[server]: contents of the file\n");*/
+              /*print_list(head);*/
+              strncpy(curnode->cargo, msg , strlen(msg));
+              printf("so heres the strcpy\n");
+              printf("[server]: writing to file\n");
+              print_list(head); // there's a problem
+              printf("[server]: end of list\n");
+              close(fd);
+              fd = open(filename, O_WRONLY);
+              int stdoutfd = dup(STDOUT_FILENO);
+              dup2(fd, STDOUT_FILENO);
+              print_list(head);
+              dup2(stdoutfd, STDOUT_FILENO);
+              printf("------ \n[server]: writing sucessful\n -------\n");
+              close(fd);
+
+              printf("[server]: waiting for client to send line number\n");
+
+              free_list(head);
+
+        } // end while read
+        exit(0); // end if not f 
+       
       }
 
       }
