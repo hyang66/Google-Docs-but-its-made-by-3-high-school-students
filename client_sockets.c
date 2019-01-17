@@ -145,12 +145,29 @@ int main(int argc, char ** argv) {
 
   /*from_server = client_handshake( &to_server );*/
 
+
+
+  char resp[4];
+  printf(RESET "[client] do you want to edit alongside someone who is already editng a file? (y/n)\n");
+  fgets(resp, 4, stdin);
+  resp[strlen(resp) - 1] = '\0';
+
+
   int server_socket; // SOCKET CODE
 
-  if (argc == 2)
-    server_socket = client_setup( argv[1]);
-  else
+  if (!strncmp(resp, "y", 1)) {
+    
+    char ip[BUFFER_SIZE];
+
+    printf(RESET "[client]: enter IP address:\n");
+    fgets(ip, BUFFER_SIZE, stdin);
+    ip[strlen(ip) - 1] = '\0';
+
+    server_socket = client_setup( ip );
+  }
+  else {
     server_socket = client_setup( TEST_IP );
+  }
 
 
   char linenum[BUFFER_SIZE];
@@ -177,21 +194,23 @@ int main(int argc, char ** argv) {
               closedir(d);
             }
 
-            char resp[4];
-            printf(RESET "[client] do you want to edit alongside someone who is already editng a file? (y/n)\n");
-            fgets(resp, 4, stdin);
-            resp[strlen(resp) - 1] = '\0';
+            /*if (!strcmp(resp, "n")){*/
+                /*// writing n to server*/
+                /*write(server_socket, resp, sizeof(resp));*/
 
-            if (!strcmp(resp, "n")){
 
-                printf(RESET "[client] enter filename to start editing:\n");
-                fgets(filename, BUFFER_SIZE, stdin);
-                filename[strlen(filename) - 1] = '\0';
-                write(server_socket, filename, BUFFER_SIZE); // tell server what file we are editing
-                printf("[client]: wrote the filename  [%s]\n", filename);
-            } else {
-                write(server_socket, "huh", BUFFER_SIZE);
-            }
+        printf(RESET "[client] enter filename to start editing:\n");
+        fgets(filename, BUFFER_SIZE, stdin);
+        filename[strlen(filename) - 1] = '\0';
+        write(server_socket, filename, BUFFER_SIZE); // tell server what file we are editing
+        printf("[client]: wrote the filename  [%s]\n", filename);
+            /*} */
+            /*else if (!strcmp(resp, "y")) {*/
+                
+            /*}*/
+            /*else {*/
+                /*write(server_socket, "huh", BUFFER_SIZE);*/
+            /*}*/
         }
 
         printf(RESET "[client] enter line number to start editing: ");
