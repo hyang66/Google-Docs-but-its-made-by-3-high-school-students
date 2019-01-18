@@ -49,9 +49,7 @@ int main() {
       printf("[server]: DOING SOCKET SETUP\n");
       int client_socket = server_connect(listen_socket);
       // find out if client is wants to start a new file or not:
-
-
-
+      printf("52\n" );
       int f = fork();
       if(!f) {
 
@@ -60,26 +58,19 @@ int main() {
         struct dirent *dir;
         d = opendir(".");
         if (d) {
-            char * dirmsg = "Here are the directory contents:\n";
-            write(client_socket, msg, sizeof(msg));
-            while ((dir = readdir(d)) != NULL)
-          {
-             char * dirstring = strcat(dir->d_name, "\n");
-            write(client_socket, dir->d_name);
-          }
-          closedir(d);
+            char dirmsg[BUFFER_SIZE];
+            strcpy(dirmsg, "Here are the directory contents:\n");
+            printf("dirstring: [%s] \n", dirmsg);
+            // write(client_socket, msg, sizeof(msg));
+            while ((dir = readdir(d)) != NULL) {
+                char * dirstring = strcat(dir->d_name, "\n");
+                // printf("File: %s", dirstring);
+                strcat(dirmsg, dirstring);
+                // printf("dirstring: %s \n", dirmsg);
+            }
+            write(client_socket, dirmsg, sizeof(dirmsg));
+            closedir(d);
         }
-
-            /*if (!strcmp(resp, "n")){*/
-                /*// writing n to server*/
-                /*write(server_socket, resp, sizeof(resp));*/
-
-
-        printf(RESET "[client] enter filename to start editing:\n");
-        fgets(filename, BUFFER_SIZE, stdin);
-        filename[strlen(filename) - 1] = '\0';
-        write(server_socket, filename, BUFFER_SIZE); // tell server what file we are editing
-        printf("[client]: wrote the filename  [%s]\n", filename);
 
 
         // checking whether y or n answer
@@ -180,9 +171,9 @@ int main() {
         } // end while read
         exit(0); // end if not f
 
-      }
+    }//end fork
 
-      }
+} // end while
       return 0;
     }
 
