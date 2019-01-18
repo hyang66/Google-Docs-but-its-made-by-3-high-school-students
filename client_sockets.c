@@ -11,6 +11,7 @@
 #include <unistd.h>                  /*  for sleep()  */
 #include <curses.h>
 #include <ctype.h>
+#include <sys/wait.h>
 
 #include "linked_list.h"
 #include "definitions.h"
