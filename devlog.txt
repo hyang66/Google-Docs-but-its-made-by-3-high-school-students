@@ -17,7 +17,7 @@ Google Docs but it's made by three high school students
 12/30/18 6pm (Hanna and Matthew): Stuctured the linked_list.c and client.c files
 01/02/19 5pm (Hanna and Matthew): Adapted linked list to display text files
 01/03/19 3pm (Hanna): messed around with ncurses, now we can deal w basic keyboard input...
-01/03/19 6pm (Hanna): more mssing arounf with ncurses, now theres a pseudo text editor that doesn't allow backspacing...
+01/03/19 6pm (Hanna): more mssing arounf with ncurses, now theres a pseudo text editor that does
 01/06/19 4pm (Josh): Added linked_list functions, working on server/client pipes (not yet working). Goal: to read user input as files (then if the file exists)  execvp our editor for the client.
 01/06/19 10pm (Hanna and Matthew): now the ext editor prints the entier file, but messes up when you enter any text oops
 01/06/19 10am (Hanna and Josh and Matthew): fixed segfaults in curses.c
@@ -30,6 +30,9 @@ Google Docs but it's made by three high school students
 01/15/19 10am (Matthew and Hanna): added code for ENTER and DOWN
 01/15/19 4pm (Josh and Matthew): Began work on sockets
 1/15/19 7:30pm (Josh and Hanna): fixed issue with writing to lines not contained in the server
-1/15/19 8:00pm (Matthew): sockets added and functioning!
+1/15/19 8:00pm (Matthew): learned how to implement sockets
 1/15/19 9:00pm (Josh): Debugging new file errors
+1/16/19 4:00pm (Matthew): Impemented sockets and added to user input
 1/16/19 11:00pm (Hanna): ok so now you can go UP and DOWN and the program doesnt break -- however, when you go down it adds a lot of new lines to the end of the text file...
+1/17/19 (Matthew): came back to school.
+
