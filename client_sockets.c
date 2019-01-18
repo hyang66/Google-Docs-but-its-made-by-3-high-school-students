@@ -156,7 +156,7 @@ int main(int argc, char ** argv) {
   int server_socket; // SOCKET CODE
 
   if (!strncmp(resp, "y", 1)) {
-    
+
     char ip[BUFFER_SIZE];
 
     printf(RESET "[client]: enter IP address:\n");
@@ -172,7 +172,7 @@ int main(int argc, char ** argv) {
 
   char linenum[BUFFER_SIZE];
   char filename[BUFFER_SIZE];
-  char rd[BUFFER_SIZE];
+  /*char rd[BUFFER_SIZE];*/
   int first_time = 1;
   int line_number;
   int try_again = 0;
@@ -206,7 +206,7 @@ int main(int argc, char ** argv) {
         printf("[client]: wrote the filename  [%s]\n", filename);
             /*} */
             /*else if (!strcmp(resp, "y")) {*/
-                
+
             /*}*/
             /*else {*/
                 /*write(server_socket, "huh", BUFFER_SIZE);*/
@@ -257,9 +257,10 @@ int main(int argc, char ** argv) {
     printf("tellinf server line number\n");
     write(server_socket, linenum, BUFFER_SIZE);
     printf("done tellinf server line number\n");
-    read(server_socket, rd, BUFFER_SIZE);
     printf("waitng fro the ok\n");
-    printf("[server]: %s\n", rd);
+    char input[BUFFER_SIZE];
+    read(server_socket, input, BUFFER_SIZE);
+    printf("[server]: %s\n", input);
     /*sleep(1);*/
 
     int fds[2];
@@ -271,18 +272,18 @@ int main(int argc, char ** argv) {
         // start running curses!!
         /*printf("testing turning a file into a linked list\n");*/
 
-        int fd = open(filename, O_RDONLY);
+        /*int fd = open(filename, O_RDONLY);*/
         /*printf("opened file\n");*/
 
         /*printf("read file\n");*/
 
-        char input[FILE_SIZE];
-        int n = FILE_SIZE;
-        while (n + 1) {
-            input[n - 1] = 0;
-            n --;
-        }
-        read(fd, input, FILE_SIZE);
+        // char input[FILE_SIZE];
+        // int n = FILE_SIZE;
+        // while (n + 1) {
+        //     input[n - 1] = 0;
+        //     n --;
+        // }
+        // read(fd, input, FILE_SIZE);
         struct node * head = read_file(input);
         int totlength = length(head);
         /*printf("read file into linked list\n");*/
@@ -383,7 +384,7 @@ int main(int argc, char ** argv) {
 
 
         /*print_list(head);*/
-        close(fd);
+        // close(fd);
 
         if (ch == 'Q') {
                 exit(Q);
