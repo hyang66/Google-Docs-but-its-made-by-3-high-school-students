@@ -181,18 +181,18 @@ int main(int argc, char ** argv) {
       if (first_time) {
         first_time = 0;
         DIR *d;
-        struct dirent *dir;
-        d = opendir(".");
+        // struct dirent *dir;
+        // d = opendir(".");
         if (!try_again) {
-            if (d)
-            {
-              printf(CYAN "Here are the directory contents:\n");
-              while ((dir = readdir(d)) != NULL)
-              {
-                printf("%s\n", dir->d_name);
-              }
-              closedir(d);
-            }
+            // if (d)
+            // {
+            //   printf(CYAN "Here are the directory contents:\n");
+            //   while ((dir = readdir(d)) != NULL)
+            //   {
+            //     printf("%s\n", dir->d_name);
+            //   }
+            //   closedir(d);
+            // }
 
             /*if (!strcmp(resp, "n")){*/
                 /*// writing n to server*/

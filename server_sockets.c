@@ -56,6 +56,31 @@ int main() {
       if(!f) {
 
         char filename[BUFFER_SIZE];
+        DIR *d;
+        struct dirent *dir;
+        d = opendir(".");
+        if (d) {
+            char * dirmsg = "Here are the directory contents:\n";
+            write(client_socket, msg, sizeof(msg));
+            while ((dir = readdir(d)) != NULL)
+          {
+             char * dirstring = strcat(dir->d_name, "\n");
+            write(client_socket, dir->d_name);
+          }
+          closedir(d);
+        }
+
+            /*if (!strcmp(resp, "n")){*/
+                /*// writing n to server*/
+                /*write(server_socket, resp, sizeof(resp));*/
+
+
+        printf(RESET "[client] enter filename to start editing:\n");
+        fgets(filename, BUFFER_SIZE, stdin);
+        filename[strlen(filename) - 1] = '\0';
+        write(server_socket, filename, BUFFER_SIZE); // tell server what file we are editing
+        printf("[client]: wrote the filename  [%s]\n", filename);
+
 
         // checking whether y or n answer
         // read(client_socket, msg, BUFFER_SIZE);
