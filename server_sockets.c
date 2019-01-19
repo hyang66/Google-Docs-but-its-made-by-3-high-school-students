@@ -106,7 +106,7 @@ int main() {
               fd = open(filename, O_RDONLY);
               int a = read(fd, input, FILE_SIZE);
               printf ("read value: %d\n", a);
-              printf("file before we turn it into ll: %s\n",input );
+              /*printf("file before we turn it into ll: %s\n",input );*/
 
 
               printf("line number:%s\n", msg);
@@ -118,11 +118,11 @@ int main() {
 
               /*lines_being_edited[line_number] = 1;*/
               write(client_socket, input , BUFFER_SIZE);
-              printf("file after we write: %s\n",input );
+              /*printf("file after we write: %s\n",input );*/
 
               struct node * head = read_file(input);
-              printf("[server]: contents of the file\n");
-              print_list(head);
+              /*printf("[server]: contents of the file\n");*/
+              /*print_list(head);*/
 
               /* int r = */read(client_socket,msg,BUFFER_SIZE);
               /*printf("read value: %d\n", r);*/
@@ -143,18 +143,18 @@ int main() {
               }
 
               // saving the file
-              printf("[server]: contents of the file\n");
-              print_list(head);
+              /*printf("[server]: contents of the file\n");*/
+              /*print_list(head);*/
               struct node * curnode = get_node(line_number-1, head);
               printf("got the node: %s\n", curnode->cargo);
 
               /*printf("[server]: contents of the file\n");*/
               /*print_list(head);*/
               strncpy(curnode->cargo, msg, CARGO_MAX);
-              printf("so heres the strcpy\n");
+              /*printf("so heres the strcpy\n");*/
               printf("[server]: writing to file\n");
-              print_list(head); // there's a problem
-              printf("[server]: end of list\n");
+              /*print_list(head); // there's a problem*/
+              /*printf("[server]: end of list\n");*/
               close(fd);
               fd = open(filename, O_WRONLY);
               int stdoutfd = dup(STDOUT_FILENO);

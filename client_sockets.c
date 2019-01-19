@@ -264,7 +264,7 @@ int main(int argc, char ** argv) {
     /*printf("waitng fro the ok\n");*/
     char input[BUFFER_SIZE];
     read(server_socket, input, BUFFER_SIZE);
-    printf("[server]: %s\n", input);
+    /*printf("[server]: %s\n", input);*/
     /*sleep(1);*/
 
     int fds[2];
