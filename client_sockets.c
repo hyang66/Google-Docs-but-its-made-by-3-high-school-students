@@ -112,9 +112,9 @@ void draw_text( struct node * head, int l, char* str, char* filename) {
     //      mvprintw the cargo
 
         if (l-i < 10){
-            mvprintw(l - i + 2, 2, " %d %s", l-i, currnode->cargo);
+            mvprintw(l - i + 2, 2, " %d || %s", l-i, currnode->cargo);
         } else {
-            mvprintw(l - i + 2, 2, "%d %s", l-i, currnode->cargo);
+            mvprintw(l - i + 2, 2, "%d || %s", l-i, currnode->cargo);
         }
         currnode = currnode->next;
         i--;
@@ -129,9 +129,9 @@ void draw_text( struct node * head, int l, char* str, char* filename) {
     // mvprintw the cargo
     while (currnode->next) {
         if (l+i+1 < 10){
-            mvprintw(l+3 + i, 2, " %d %s", l+i+1, currnode->cargo);
+            mvprintw(l+3 + i, 2, " %d || %s", l+i+1, currnode->cargo);
         } else {
-            mvprintw(l+3 + i, 2, "%d %s", l+i+1, currnode->cargo);
+            mvprintw(l+3 + i, 2, "%d || %s", l+i+1, currnode->cargo);
         }
         currnode = currnode->next;
         i++;
@@ -142,9 +142,9 @@ void draw_text( struct node * head, int l, char* str, char* filename) {
 
     //print out the line we are currently editing.
     if (l < 10) {
-        mvprintw(l + 2, 1, "* %d %s", l, str);
+        mvprintw(l + 2, 1, "* %d || %s", l, str);
     } else {
-        mvprintw(l + 2, 1, "*%d %s", l, str);
+        mvprintw(l + 2, 1, "*%d || %s", l, str);
     }
     refresh();
 
