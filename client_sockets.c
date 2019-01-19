@@ -197,9 +197,9 @@ int main(int argc, char ** argv) {
         // d = opendir(".");
         if (!try_again) {
             char input[BUFFER_SIZE];
-            printf("before read [server]: %s\n", input);
+            /*printf("before read [server]: %s\n", input);*/
             read(server_socket, input, BUFFER_SIZE);
-            printf("after read [server]: %s\n", input);
+            /*printf("after read [server]: %s\n", input);*/
 
 
         printf(RESET "[client] enter filename to start editing:\n");
@@ -221,7 +221,7 @@ int main(int argc, char ** argv) {
         linenum[strlen(linenum) - 1] = '\0';
         line_number = atoi(linenum);
 
-        printf("line number: %d\n", line_number);
+        /*printf("line number: %d\n", line_number);*/
 
         int fd = open(filename, O_RDONLY);
         /*printf("opened file\n");*/
@@ -251,16 +251,16 @@ int main(int argc, char ** argv) {
 
 
     if (!try_again) {
-    printf("\n---\n[cleint]: continuing, no need to try again...\n------\n");
+    /*printf("\n---\n[cleint]: continuing, no need to try again...\n------\n");*/
 
     // still in the whiile loop
 
     // send line numbers to server, telling which line we are currently editing
     sprintf(linenum, "%d", line_number);
-    printf("tellinf server line number\n");
+    /*printf("tellinf server line number\n");*/
     write(server_socket, linenum, BUFFER_SIZE);
-    printf("done tellinf server line number\n");
-    printf("waitng fro the ok\n");
+    /*printf("done tellinf server line number\n");*/
+    /*printf("waitng fro the ok\n");*/
     char input[BUFFER_SIZE];
     read(server_socket, input, BUFFER_SIZE);
     printf("[server]: %s\n", input);
@@ -375,7 +375,7 @@ int main(int argc, char ** argv) {
 
         struct node * edited_line = get_node(line_number-1, head);
         strncpy(edited_line->cargo, str, CARGO_MAX);
-        printf("[curses]: edited_line: %s\n", edited_line->cargo);
+        /*printf("[curses]: edited_line: %s\n", edited_line->cargo);*/
         char msg[CARGO_MAX];
         strncpy(msg, edited_line->cargo, CARGO_MAX);
         char ln[10];
@@ -383,7 +383,7 @@ int main(int argc, char ** argv) {
         strncat(msg, ln, CARGO_MAX);
         /*printf("made it to strcat: %s\n", msg);*/
         write(fds[WRITE], msg, BUFFER_SIZE);
-        printf("write sucessful\n");
+        /*printf("write sucessful\n");*/
 
 
         /*print_list(head);*/
@@ -420,7 +420,7 @@ int main(int argc, char ** argv) {
 		/*printf("parents: about to read\n");*/
         int r = read(fds[READ], msg, BUFFER_SIZE);
         if (r == -1 ) {
-            printf("fuck \n");
+            printf("read unsucessfule, line 423\n");
             exit(0);
         }
 		/*printf("%s : %d\n", msg, r);*/
@@ -453,7 +453,7 @@ int main(int argc, char ** argv) {
         int totlength = atoi(ln);
         /*printf("set totlength\n");*/
 
-        printf( "message: %s || total length: %d\n", msg, totlength );
+        /*printf( "message: %s || total length: %d\n", msg, totlength );*/
 
 
 
@@ -464,7 +464,7 @@ int main(int argc, char ** argv) {
         /*printf("hggfgfg\n");*/
         int child_arg = WEXITSTATUS(status);
 
-        printf("[client]: will write [%s] to server\n", msg);
+        /*printf("[client]: will write [%s] to server\n", msg);*/
         if (child_arg == Q) {
             // exit out of the loop
             printf("[client]: USer presssed quit.\n");
