@@ -9,8 +9,8 @@
 #include <string.h>
 #include <errno.h>
 
-#ifndef DEFINITION2 
-#define DEFINITION2 
+#ifndef DEFINITION2
+#define DEFINITION2
 
 #define BUFFER_SIZE 1000
 #define PORT "9002"

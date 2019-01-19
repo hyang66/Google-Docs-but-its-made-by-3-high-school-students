@@ -49,7 +49,7 @@ int main() {
       printf("[server]: DOING SOCKET SETUP\n");
       int client_socket = server_connect(listen_socket);
       // find out if client is wants to start a new file or not:
-      printf("52\n" );
+      // printf("52\n" );
       int f = fork();
       if(!f) {
 
@@ -59,8 +59,9 @@ int main() {
         d = opendir(".");
         if (d) {
             char dirmsg[BUFFER_SIZE];
-            strcpy(dirmsg, "Here are the directory contents:\n");
-            printf("dirstring: [%s] \n", dirmsg);
+            printf("[server]: writing directory contents to client \n");
+            strcpy(dirmsg, "Here are the directory contents:\n \033[0;36m");
+            // printf("dirstring: [%s] \n", dirmsg);
             // write(client_socket, msg, sizeof(msg));
             while ((dir = readdir(d)) != NULL) {
                 char * dirstring = strcat(dir->d_name, "\n");
@@ -68,6 +69,7 @@ int main() {
                 strcat(dirmsg, dirstring);
                 // printf("dirstring: %s \n", dirmsg);
             }
+            strcat(dirmsg, "\033[0m");
             write(client_socket, dirmsg, BUFFER_SIZE);
             closedir(d);
         }

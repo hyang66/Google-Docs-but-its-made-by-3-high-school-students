@@ -29,11 +29,13 @@ Google Docs but it's made by three high school students
 01/13/19 10pm (Hanna): well now saving is a thing
 01/15/19 10am (Matthew and Hanna): added code for ENTER and DOWN
 01/15/19 4pm (Josh and Matthew): Began work on sockets
-1/15/19 7:30pm (Josh and Hanna): fixed issue with writing to lines not contained in the server
+1/15/19 7:30pm (Josh and Hanna): fixed issue with writing to lines not contained in the file
 1/15/19 8:00pm (Matthew): learned how to implement sockets
-1/15/19 9:00pm (Josh): Debugging new file errors
-1/16/19 4:00pm (Matthew): Impemented sockets and added to user input
-1/16/19 11:00pm (Hanna): ok so now you can go UP and DOWN and the program doesnt break -- however, when you go down it adds a lot of new lines to the end of the text file...
+1/15/19 9:00pm (Josh): Debugging writing to a new file errors
+1/16/19 4:00pm (Matthew): Implemented sockets and added to user input
+1/16/19 11:00pm (Hanna): ok so now you can go UP and DOWN and the program doesn't break -- however, when you go down it adds a lot of new lines to the end of the text file...
 1/17/19 (Matthew): came back to school.
+1/18/19 11:00am (Josh): Changed structure so that we send the user the directory contents of editable files in the server, not the user's directory.
 1/19/19 12:00am (Matthew and Hanna): aesthetic improvements, and now we are done i think...
-
+1/19/19 3:00am (Josh): Tried to resolve issue of "scrolling" down large files whose lines exceed the window size of the terminal, found this to be too buggy with our linked list implementation and ncurses.
+1/19/19 5:00am (Josh): Final aesthetic update

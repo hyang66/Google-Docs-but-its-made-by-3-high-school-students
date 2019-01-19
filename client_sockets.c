@@ -203,7 +203,7 @@ int main(int argc, char ** argv) {
             /*printf("after read [server]: %s\n", input);*/
 
 
-            printf(RESET "[client] enter filename to start editing:\n");
+            printf(RESET "Enter filename to start editing:\n");
             fgets(filename, BUFFER_SIZE, stdin);
             filename[strlen(filename) - 1] = '\0';
             write(server_socket, filename, BUFFER_SIZE); // tell server what file we are editing
