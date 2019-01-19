@@ -90,19 +90,18 @@ char * intprtkey(int ch) {
     return NULL;        /*  We shouldn't get here  */
 }
 
-void draw_text( struct node * head, int l, char* str) {
+void draw_text( struct node * head, int l, char* str, char* filename) {
 
     clear();                /* clear the screen */
     /*  Print a prompt and refresh() the screen  */
 
-    mvaddstr(1, 10, "Press a key ('q' to quit and save this line)...");
+    mvprintw(1, 10, "|| %s || Press a key ('Q' to quit and save this line)...", filename);
 
     /*int l = argv[1]; // this will be the line number*/
 
     // print tne entire file until the line that is currently being edited...
 
 
-    mvprintw(2, 10, "The file contains:");
 
     /*printf("some seetupt\n");*/
     // print the rest of the file ( and save a space for the line we are editng to be printed )
@@ -112,7 +111,11 @@ void draw_text( struct node * head, int l, char* str) {
     while (i) {
     //      mvprintw the cargo
 
-        mvprintw(l - i + 2, 2, "%d %s", l-i, currnode->cargo);
+        if (l-i < 10){
+            mvprintw(l - i + 2, 2, " %d %s", l-i, currnode->cargo);
+        } else {
+            mvprintw(l - i + 2, 2, "%d %s", l-i, currnode->cargo);
+        }
         currnode = currnode->next;
         i--;
 
@@ -125,7 +128,11 @@ void draw_text( struct node * head, int l, char* str) {
     currnode = get_node(l,head);
     // mvprintw the cargo
     while (currnode->next) {
-        mvprintw(l+3 + i, 2, "%d %s", l+i+1, currnode->cargo);
+        if (l+i+1 < 10){
+            mvprintw(l+3 + i, 2, " %d %s", l+i+1, currnode->cargo);
+        } else {
+            mvprintw(l+3 + i, 2, "%d %s", l+i+1, currnode->cargo);
+        }
         currnode = currnode->next;
         i++;
 
@@ -134,7 +141,11 @@ void draw_text( struct node * head, int l, char* str) {
     /*mvprintw(6, 10, "%s", head->next->next->next->cargo);*/
 
     //print out the line we are currently editing.
-    mvprintw(l + 2, 2, "%d %s", l, str);
+    if (l < 10) {
+        mvprintw(l + 2, 1, "* %d %s", l, str);
+    } else {
+        mvprintw(l + 2, 1, "*%d %s", l, str);
+    }
     refresh();
 
 }
@@ -305,7 +316,7 @@ int main(int argc, char ** argv) {
         }
 
 
-        draw_text(head, line_number, str);
+        draw_text(head, line_number, str, filename);
 
             /*  Loop until user presses 'q'  */
 
@@ -326,7 +337,7 @@ int main(int argc, char ** argv) {
             while (str[i]) {
                 i ++;
             }
-            if (ch == 0x7f) {
+            if (ch == 0x7f || ch == 0x107) {
                 str[i] = 0;
                 str[i-1] = 0;
 
@@ -343,7 +354,7 @@ int main(int argc, char ** argv) {
                 }
             }
             /*  Print a prompt and refresh() the screen  */
-            draw_text(head, line_number, str);
+            draw_text(head, line_number, str, filename);
 
         }
 
