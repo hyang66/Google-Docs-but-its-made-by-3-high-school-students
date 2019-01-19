@@ -1,4 +1,3 @@
-
  Google Docs 
 but its made by 3 high school students (and is not really google docs)
 
@@ -23,20 +22,10 @@ c standard library, curses
 to install curses: sudo apt-get install libncurses5-dev libncursesw5-dev
 
 ##bugs
-1. hitting enter only works sometimes (and only on macs, it seems like)...
+1. hitting enter only works sometimes (and only on macs, it seems like)... (backspace may or may not work on the school computer keyboards)
 1. hitting up and down will add extra lines to the end of the file
 1. each time you go up or down, you may see a glimpse of the terminal window.
 1. hitting upp and down too fast on some computers may cause some strange symbols to show up in the text.
 1. going down past the end of the file will cause it to crash...
+1. there may be some issues when editing on someone else's computer that will only let you edit (for the first time) the first line of a file...
 
-
-<<<<<<< HEAD
-to use this text editor:
-
-## BUGS
-If you press the down or up arrow too quickly, the characters will appear in the text editor.
-Every time you change lines, whether it's due to up/down or enter, the shell is visible between redraws of the screen.
-
-
-=======
->>>>>>> 0f185e20345d276faf45e9de7c695456ab9974f9
