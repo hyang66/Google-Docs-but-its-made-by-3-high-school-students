@@ -23,9 +23,7 @@ pipe_networking.o: pipe_networking.c pipe_networking.h
 	gcc -c pipe_networking.c
 
 clean:
+	rm client_sockets
+	rm server_sockets
 	rm *.o
-	rm client
-	rm server
-	rm curses
-	rm test
 	rm *~
