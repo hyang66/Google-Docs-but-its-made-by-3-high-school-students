@@ -1,5 +1,5 @@
-all: main.o
-	gcc -o go main.o
+all: 
+	make server_sockets client_sockets
 
 main.o: main.c
 	gcc -c -g main.c

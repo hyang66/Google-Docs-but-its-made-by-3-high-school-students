@@ -68,7 +68,7 @@ int main() {
                 strcat(dirmsg, dirstring);
                 // printf("dirstring: %s \n", dirmsg);
             }
-            write(client_socket, dirmsg, sizeof(dirmsg));
+            write(client_socket, dirmsg, BUFFER_SIZE);
             closedir(d);
         }
 
@@ -116,7 +116,7 @@ int main() {
                   /*printf("waiting...\n");*/
               /*}*/
 
-              lines_being_edited[line_number] = 1;
+              /*lines_being_edited[line_number] = 1;*/
               write(client_socket, input , BUFFER_SIZE);
               printf("file after we write: %s\n",input );
 
