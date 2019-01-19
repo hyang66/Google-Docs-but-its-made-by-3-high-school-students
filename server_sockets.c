@@ -68,7 +68,7 @@ int main() {
                 strcat(dirmsg, dirstring);
                 // printf("dirstring: %s \n", dirmsg);
             }
-            write(client_socket, dirmsg, sizeof(dirmsg));
+            write(client_socket, dirmsg, BUFFER_SIZE);
             closedir(d);
         }
 
