@@ -49,13 +49,29 @@ int main() {
       printf("[server]: DOING SOCKET SETUP\n");
       int client_socket = server_connect(listen_socket);
       // find out if client is wants to start a new file or not:
-
-
-
+      printf("52\n" );
       int f = fork();
       if(!f) {
 
         char filename[BUFFER_SIZE];
+        DIR *d;
+        struct dirent *dir;
+        d = opendir(".");
+        if (d) {
+            char dirmsg[BUFFER_SIZE];
+            strcpy(dirmsg, "Here are the directory contents:\n");
+            printf("dirstring: [%s] \n", dirmsg);
+            // write(client_socket, msg, sizeof(msg));
+            while ((dir = readdir(d)) != NULL) {
+                char * dirstring = strcat(dir->d_name, "\n");
+                // printf("File: %s", dirstring);
+                strcat(dirmsg, dirstring);
+                // printf("dirstring: %s \n", dirmsg);
+            }
+            write(client_socket, dirmsg, sizeof(dirmsg));
+            closedir(d);
+        }
+
 
         // checking whether y or n answer
         // read(client_socket, msg, BUFFER_SIZE);
@@ -155,9 +171,9 @@ int main() {
         } // end while read
         exit(0); // end if not f
 
-      }
+    }//end fork
 
-      }
+} // end while
       return 0;
     }
 

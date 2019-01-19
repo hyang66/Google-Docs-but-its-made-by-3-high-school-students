@@ -181,23 +181,14 @@ int main(int argc, char ** argv) {
   while(1) { // us sending requests to the server
       if (first_time) {
         first_time = 0;
-        DIR *d;
-        struct dirent *dir;
-        d = opendir(".");
+        // DIR *d;
+        // struct dirent *dir;
+        // d = opendir(".");
         if (!try_again) {
-            if (d)
-            {
-              printf(CYAN "Here are the directory contents:\n");
-              while ((dir = readdir(d)) != NULL)
-              {
-                printf("%s\n", dir->d_name);
-              }
-              closedir(d);
-            }
-
-            /*if (!strcmp(resp, "n")){*/
-                /*// writing n to server*/
-                /*write(server_socket, resp, sizeof(resp));*/
+            char input[BUFFER_SIZE];
+            printf("before read [server]: %s\n", input);
+            read(server_socket, input, BUFFER_SIZE);
+            printf("after read [server]: %s\n", input);
 
 
         printf(RESET "[client] enter filename to start editing:\n");
